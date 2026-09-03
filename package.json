@@ -1,29 +1,26 @@
 {
   "name": "alaman-tech",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.114.0",
-    "@tailwindcss/vite": "^4.3.3",
-    "framer-motion": "^13.1.1",
-    "lucide-react": "^1.39.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.3",
-    "tailwindcss": "^4.3.3"
+    "framer-motion": "^12.4.7",
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.5",
+    "tailwindcss": "^4.0.7"
   },
   "devDependencies": {
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.1.0",
-    "oxlint": "^1.79.0",
-    "vite": "^8.2.2"
+    "@tailwindcss/vite": "^4.0.7",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.1.0"
   }
 }
