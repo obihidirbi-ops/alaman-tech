@@ -1,13 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase URL & Anon Key configuration (can be provided via Vite env variables)
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-supabase-project.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
+// Supabase URL & Anon Key configuration for Alaman Al-Awal Tech Co.
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://zraxysulxpmxudnmzmoy.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_a3HXQ4YUhVnijJk71W82sw_ndGIeZSL';
 
-export const isSupabaseConfigured = Boolean(
-  import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+export const isSupabaseConfigured = true;
 
-export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);

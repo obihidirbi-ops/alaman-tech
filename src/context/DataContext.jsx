@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 const DataContext = createContext();
 
@@ -681,20 +682,45 @@ export const DataProvider = ({ children }) => {
       created_at: new Date().toISOString()
     };
     setInbox(prev => [newMsg, ...prev]);
+
+    if (isSupabaseConfigured && supabase) {
+      supabase.from('inbox_messages').insert([newMsg]).then(({ error }) => {
+        if (error) console.warn('Supabase inbox sync warning:', error);
+      });
+    }
+
     return newMsg;
   };
 
   const updateInboxStatus = (id, newStatus) => {
     setInbox(prev => prev.map(m => m.id === id ? { ...m, status: newStatus } : m));
+    if (isSupabaseConfigured && supabase) {
+      supabase.from('inbox_messages').update({ status: newStatus }).eq('id', id).then(({ error }) => {
+        if (error) console.warn('Supabase status sync warning:', error);
+      });
+    }
   };
 
   const deleteInboxMessage = (id) => {
     setInbox(prev => prev.filter(m => m.id !== id));
+    if (isSupabaseConfigured && supabase) {
+      supabase.from('inbox_messages').delete().eq('id', id).then(({ error }) => {
+        if (error) console.warn('Supabase delete msg warning:', error);
+      });
+    }
   };
 
   // Update Settings
   const updateSettings = (newSettings) => {
-    setSettings(prev => ({ ...prev, ...newSettings }));
+    setSettings(prev => {
+      const updated = { ...prev, ...newSettings };
+      if (isSupabaseConfigured && supabase) {
+        supabase.from('site_settings').upsert({ id: 'main_settings', ...updated }).then(({ error }) => {
+          if (error) console.warn('Supabase settings sync warning:', error);
+        });
+      }
+      return updated;
+    });
   };
 
   return (
