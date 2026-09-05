@@ -116,19 +116,17 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Company Profile PDF Button */}
-          {settings.company_profile_url && (
-            <a
-              href={settings.company_profile_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3.5 py-2.5 text-xs font-bold text-[#2B3990] bg-blue-50 border border-blue-200 hover:bg-blue-100 rounded-xl transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
-              title={lang === 'ar' ? 'تصفح البروفايل التعريفي للشركة (PDF)' : 'Company Profile PDF'}
-            >
-              <FileText className="w-4 h-4 text-[#2B3990]" />
-              <span>{lang === 'ar' ? 'البروفايل' : 'Profile'}</span>
-            </a>
-          )}
+          {/* Company Profile PDF Button (Always Visible) */}
+          <a
+            href={settings.company_profile_url || '/about'}
+            target={settings.company_profile_url ? "_blank" : "_self"}
+            rel="noopener noreferrer"
+            className="px-4 py-2.5 text-xs font-bold text-white bg-[#2B3990] hover:bg-[#1E286C] rounded-xl shadow-sm transition-all flex items-center gap-1.5 shrink-0 active:scale-95"
+            title={lang === 'ar' ? 'تصفح البروفايل التعريفي للشركة (PDF)' : 'Company Profile PDF'}
+          >
+            <FileText className="w-4 h-4 text-amber-400" />
+            <span>{lang === 'ar' ? 'البروفايل التعريفي' : 'Profile PDF'}</span>
+          </a>
 
           {/* Red Solid CTA Button */}
           <Link
@@ -180,17 +178,15 @@ export default function Navbar() {
           </div>
 
           <div className="pt-3 border-t border-slate-100 space-y-2">
-            {settings.company_profile_url && (
-              <a
-                href={settings.company_profile_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2.5 bg-blue-50 border border-blue-200 text-[#2B3990] font-bold text-xs text-center rounded-xl shadow-sm flex items-center justify-center gap-2"
-              >
-                <FileText className="w-4 h-4" />
-                <span>{lang === 'ar' ? 'تصفح البروفايل التعريفي (PDF)' : 'Company Profile (PDF)'}</span>
-              </a>
-            )}
+            <a
+              href={settings.company_profile_url || '/about'}
+              target={settings.company_profile_url ? "_blank" : "_self"}
+              rel="noopener noreferrer"
+              className="w-full py-2.5 bg-[#2B3990] text-white font-bold text-xs text-center rounded-xl shadow-sm flex items-center justify-center gap-2"
+            >
+              <FileText className="w-4 h-4 text-amber-400" />
+              <span>{lang === 'ar' ? 'تصفح البروفايل التعريفي (PDF)' : 'Company Profile (PDF)'}</span>
+            </a>
 
             <Link
               to="/request-quote"

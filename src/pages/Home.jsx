@@ -141,7 +141,7 @@ export default function Home() {
                 href={settings.company_profile_url || '/about'}
                 target={settings.company_profile_url ? "_blank" : "_self"}
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm sm:text-base font-bold text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 hover:border-white/60 rounded-xl shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 shrink-0"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm sm:text-base font-bold text-white bg-[#2B3990] hover:bg-[#1E286C] border border-blue-400/40 rounded-xl shadow-xl hover:shadow-blue-900/50 transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 shrink-0"
                 title={lang === 'ar' ? 'تصفح البروفايل التعريفي للشركة (PDF)' : 'Company Profile PDF'}
               >
                 <FileText className="w-5 h-5 text-amber-400" />
