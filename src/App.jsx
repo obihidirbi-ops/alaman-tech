@@ -44,9 +44,13 @@ function ScrollToTop() {
   return null;
 }
 
+import CompanyProfileModal from './components/CompanyProfileModal';
+import { useData } from './context/DataContext';
+
 function MainLayout() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const { isProfileModalOpen, closeProfileModal } = useData();
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900 font-tajawal selection:bg-[#E31E24] selection:text-white">
@@ -80,6 +84,9 @@ function MainLayout() {
 
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <FloatingWhatsapp />}
+
+      {/* Global Branded Company Profile PDF Modal */}
+      <CompanyProfileModal isOpen={isProfileModalOpen} onClose={closeProfileModal} />
     </div>
   );
 }

@@ -729,6 +729,11 @@ export const DataProvider = ({ children }) => {
     });
   };
 
+  // Profile PDF Modal State
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const openProfileModal = () => setIsProfileModalOpen(true);
+  const closeProfileModal = () => setIsProfileModalOpen(false);
+
   return (
     <DataContext.Provider value={{
       services,
@@ -737,6 +742,9 @@ export const DataProvider = ({ children }) => {
       settings,
       inbox,
       isAdminAuthenticated,
+      isProfileModalOpen,
+      openProfileModal,
+      closeProfileModal,
       adminLogin,
       adminLogout,
       saveService,
