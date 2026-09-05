@@ -23,7 +23,7 @@ import {
 
 export default function Home() {
   const { t, lang, isRTL } = useLanguage();
-  const { services, projects, clients, settings } = useData();
+  const { services, projects, clients, settings, openProfileModal } = useData();
 
   const [projectFilter, setProjectFilter] = useState('all');
 
@@ -137,16 +137,15 @@ export default function Home() {
                 <ArrowIcon className="w-5 h-5" />
               </Link>
 
-              <a
-                href={settings.company_profile_url || '/about'}
-                target={settings.company_profile_url ? "_blank" : "_self"}
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm sm:text-base font-bold text-white bg-[#2B3990] hover:bg-[#1E286C] border border-blue-400/40 rounded-xl shadow-xl hover:shadow-blue-900/50 transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 shrink-0"
+              <button
+                type="button"
+                onClick={openProfileModal}
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm sm:text-base font-bold text-white bg-[#2B3990] hover:bg-[#1E286C] border border-blue-400/40 rounded-xl shadow-xl hover:shadow-blue-900/50 transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 shrink-0 cursor-pointer"
                 title={lang === 'ar' ? 'تصفح البروفايل التعريفي للشركة (PDF)' : 'Company Profile PDF'}
               >
                 <FileText className="w-5 h-5 text-amber-400" />
                 <span>{lang === 'ar' ? 'تصفح البروفايل التعريفي' : 'Company Profile'}</span>
-              </a>
+              </button>
             </div>
 
           </div>

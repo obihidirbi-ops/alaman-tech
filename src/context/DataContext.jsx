@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { savePdfToIndexedDB, getPdfFromIndexedDB, removePdfFromIndexedDB } from '../utils/pdfStorage';
 
 const DataContext = createContext();
 
@@ -568,6 +569,15 @@ export const DataProvider = ({ children }) => {
     return Boolean(localStorage.getItem('alaman_admin_session'));
   });
 
+  // Load PDF from IndexedDB on initial mount
+  useEffect(() => {
+    getPdfFromIndexedDB('company_profile_pdf').then((storedPdf) => {
+      if (storedPdf) {
+        setSettings(prev => ({ ...prev, company_profile_url: storedPdf }));
+      }
+    });
+  }, []);
+
   // Save to LocalStorage & SessionStorage on change with try-catch fallback
   useEffect(() => {
     try {
@@ -595,11 +605,20 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem('alaman_settings_v6', JSON.stringify(settings));
+      // Create a light settings copy for localStorage to prevent 5MB QuotaExceededError when storing PDF Base64
+      const cleanSettings = { ...settings };
+      if (cleanSettings.company_profile_url && cleanSettings.company_profile_url.startsWith('data:')) {
+        cleanSettings.company_profile_url = 'indexeddb:company_profile_pdf';
+      }
+      localStorage.setItem('alaman_settings_v6', JSON.stringify(cleanSettings));
     } catch (e) {
       console.warn('Failed to save settings to localStorage, trying sessionStorage...', e);
       try {
-        sessionStorage.setItem('alaman_settings_v6', JSON.stringify(settings));
+        const cleanSettings = { ...settings };
+        if (cleanSettings.company_profile_url && cleanSettings.company_profile_url.startsWith('data:')) {
+          cleanSettings.company_profile_url = 'indexeddb:company_profile_pdf';
+        }
+        sessionStorage.setItem('alaman_settings_v6', JSON.stringify(cleanSettings));
       } catch (e2) {
         console.warn('SessionStorage quota fallback also exceeded', e2);
       }
@@ -718,10 +737,23 @@ export const DataProvider = ({ children }) => {
 
   // Update Settings
   const updateSettings = (newSettings) => {
+    if (newSettings.company_profile_url) {
+      if (newSettings.company_profile_url.startsWith('data:')) {
+        savePdfToIndexedDB('company_profile_pdf', newSettings.company_profile_url);
+      }
+    } else {
+      removePdfFromIndexedDB('company_profile_pdf');
+    }
+
     setSettings(prev => {
       const updated = { ...prev, ...newSettings };
       if (isSupabaseConfigured && supabase) {
-        supabase.from('site_settings').upsert({ id: 'main_settings', ...updated }).then(({ error }) => {
+        // Strip heavy base64 before sending to Supabase site_settings table if needed
+        const cleanForDb = { ...updated };
+        if (cleanForDb.company_profile_url && cleanForDb.company_profile_url.startsWith('data:')) {
+          cleanForDb.company_profile_url = 'indexeddb:company_profile_pdf';
+        }
+        supabase.from('site_settings').upsert({ id: 'main_settings', ...cleanForDb }).then(({ error }) => {
           if (error) console.warn('Supabase settings sync warning:', error);
         });
       }
