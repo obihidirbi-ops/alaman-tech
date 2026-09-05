@@ -119,7 +119,7 @@ export default function Home() {
             {/* Slide Badge Indicator */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-xs font-bold text-slate-200">
               <span className="flex h-2 w-2 rounded-full bg-[#E31E24] animate-ping"></span>
-              <span>شريككم الهندسـي الأول في المملكة</span>
+              <span>{lang === 'ar' ? 'شريككم الهندسـي الأول في المملكة' : 'Your Premier Engineering Partner in KSA'}</span>
             </div>
 
             {/* Dynamic Animated Title */}
@@ -279,11 +279,11 @@ export default function Home() {
             {/* Filter Pills */}
             <div className="flex flex-wrap items-center gap-2">
               {[
-                { id: 'all', label: 'الكل' },
-                { id: 'إطفاء', label: 'إطفاء' },
-                { id: 'كاميرات', label: 'كاميرات' },
-                { id: 'شبكات', label: 'شبكات' },
-                { id: 'مصاعد', label: 'مصاعد' }
+                { id: 'all', label: lang === 'ar' ? 'الكل' : 'All' },
+                { id: 'إطفاء', label: lang === 'ar' ? 'إطفاء' : 'Fire Protection' },
+                { id: 'كاميرات', label: lang === 'ar' ? 'كاميرات' : 'CCTV & Security' },
+                { id: 'شبكات', label: lang === 'ar' ? 'شبكات' : 'Networks & IT' },
+                { id: 'مصاعد', label: lang === 'ar' ? 'مصاعد' : 'Elevators' }
               ].map((f) => (
                 <button
                   key={f.id}
@@ -379,21 +379,27 @@ export default function Home() {
               <div className="text-3xl sm:text-4xl font-black text-[#E31E24] font-cairo mb-1">
                 +{settings.stat_clients || 250}
               </div>
-              <div className="text-xs font-bold text-slate-700">عميل وشركة</div>
+              <div className="text-xs font-bold text-slate-700">
+                {lang === 'ar' ? 'عميل وشركة' : 'Clients & Companies'}
+              </div>
             </div>
 
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
               <div className="text-3xl sm:text-4xl font-black text-[#2B3990] font-cairo mb-1">
                 +{settings.stat_projects || 500}
               </div>
-              <div className="text-xs font-bold text-slate-700">مشروع منشور</div>
+              <div className="text-xs font-bold text-slate-700">
+                {lang === 'ar' ? 'مشروع منشور' : 'Projects Delivered'}
+              </div>
             </div>
 
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 col-span-2 md:col-span-1">
               <div className="text-3xl sm:text-4xl font-black text-[#E31E24] font-cairo mb-1">
                 12
               </div>
-              <div className="text-xs font-bold text-slate-700">فريق فني تخصصي</div>
+              <div className="text-xs font-bold text-slate-700">
+                {lang === 'ar' ? 'فريق فني تخصصي' : 'Specialized Tech Teams'}
+              </div>
             </div>
           </div>
 
@@ -402,24 +408,36 @@ export default function Home() {
             <div className="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900">
               <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
               <div>
-                <div className="font-bold text-xs">التزام بالجودة</div>
-                <div className="text-[11px] text-emerald-700">التزام بالمعايير العالمية ISO</div>
+                <div className="font-bold text-xs">
+                  {lang === 'ar' ? 'التزام بالجودة' : 'Quality Commitment'}
+                </div>
+                <div className="text-[11px] text-emerald-700">
+                  {lang === 'ar' ? 'التزام بالمعايير العالمية ISO' : 'ISO International Standards'}
+                </div>
               </div>
             </div>
 
             <div className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-2xl text-blue-900">
               <CheckCircle2 className="w-6 h-6 text-blue-600 shrink-0" />
               <div>
-                <div className="font-bold text-xs">كوادر مؤهلة</div>
-                <div className="text-[11px] text-blue-700">إشراف مهندسين في مؤهلات عالية</div>
+                <div className="font-bold text-xs">
+                  {lang === 'ar' ? 'كوادر مؤهلة' : 'Qualified Team'}
+                </div>
+                <div className="text-[11px] text-blue-700">
+                  {lang === 'ar' ? 'إشراف مهندسين بمؤهلات عالية' : 'Supervised by Qualified Engineers'}
+                </div>
               </div>
             </div>
 
             <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-amber-900">
               <CheckCircle2 className="w-6 h-6 text-amber-600 shrink-0" />
               <div>
-                <div className="font-bold text-xs">اعتمادات حكومية</div>
-                <div className="text-[11px] text-amber-700">اعتمادات الدفاع المدني للسلامة</div>
+                <div className="font-bold text-xs">
+                  {lang === 'ar' ? 'اعتمادات حكومية' : 'Government Accreditation'}
+                </div>
+                <div className="text-[11px] text-amber-700">
+                  {lang === 'ar' ? 'اعتمادات الدفاع المدني للسلامة' : 'Civil Defense Safety Approvals'}
+                </div>
               </div>
             </div>
           </div>

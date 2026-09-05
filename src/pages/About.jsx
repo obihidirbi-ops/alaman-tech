@@ -21,7 +21,7 @@ export default function About() {
         <div className="lg:col-span-6 space-y-6">
           <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E31E24] uppercase tracking-wider bg-red-50 border border-red-200 px-3 py-1 rounded-md">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>عن الشركة والمسيرة</span>
+            <span>{lang === 'ar' ? 'عن الشركة والمسيرة' : 'About Us & Company History'}</span>
           </span>
 
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 font-cairo leading-tight">
@@ -37,21 +37,21 @@ export default function About() {
             <div className="flex items-center gap-3 p-3.5 bg-white border border-slate-200 rounded-xl shadow-sm">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
               <span className="text-xs font-bold text-slate-800">
-                اعتمادات رسمية مكتملة لدى الدفاع المدني والجهات المختصة
+                {lang === 'ar' ? 'اعتمادات رسمية مكتملة لدى الدفاع المدني والجهات المختصة' : 'Official Civil Defense approvals & accredited certifications'}
               </span>
             </div>
 
             <div className="flex items-center gap-3 p-3.5 bg-white border border-slate-200 rounded-xl shadow-sm">
               <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0" />
               <span className="text-xs font-bold text-slate-800">
-                إشراف كادر هندسي وفني مؤهل ذو خبرة في المشاريع المعقدة
+                {lang === 'ar' ? 'إشراف كادر هندسي وفني مؤهل ذو خبرة في المشاريع المعقدة' : 'Supervised by qualified engineering teams experienced in complex projects'}
               </span>
             </div>
 
             <div className="flex items-center gap-3 p-3.5 bg-white border border-slate-200 rounded-xl shadow-sm">
               <CheckCircle2 className="w-5 h-5 text-[#E31E24] shrink-0" />
               <span className="text-xs font-bold text-slate-800">
-                تغطية شاملة: التصميم والتوريد والتركيب والصيانة الدورية
+                {lang === 'ar' ? 'تغطية شاملة: التصميم والتوريد والتركيب والصيانة الدورية' : 'Turnkey scope: Design, Procurement, Installation & Annual Maintenance'}
               </span>
             </div>
           </div>
@@ -74,8 +74,12 @@ export default function About() {
               12+
             </div>
             <div>
-              <div className="font-bold text-sm text-slate-900 font-cairo">سنوات من الخبرة والتميز</div>
-              <div className="text-xs text-slate-500">في سوق المملكة العربية السعودية</div>
+              <div className="font-bold text-sm text-slate-900 font-cairo">
+                {lang === 'ar' ? 'سنوات من الخبرة والتميز' : 'Years of Excellence & Innovation'}
+              </div>
+              <div className="text-xs text-slate-500">
+                {lang === 'ar' ? 'في سوق المملكة العربية السعودية' : 'In the Saudi Arabian Market'}
+              </div>
             </div>
           </div>
         </div>
@@ -113,7 +117,7 @@ export default function About() {
       <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-md space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold text-[#E31E24] uppercase tracking-wider bg-red-50 px-3 py-1 rounded-md">
-            قيمنا ومبادئنا
+            {lang === 'ar' ? 'قيمنا ومبادئنا' : 'Our Core Values'}
           </span>
           <h2 className="text-3xl font-extrabold text-slate-900 font-cairo">
             {t('aboutValuesTitle')}
@@ -124,25 +128,33 @@ export default function About() {
           <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 hover:border-red-300 transition-colors">
             <CheckCircle2 className="w-8 h-8 text-[#E31E24]" />
             <h3 className="text-base font-bold text-slate-900 font-cairo">{t('aboutValue1')}</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">التزام بتوريد أنظمة السلامة والإطفاء وفق أعلى معايير الجودة الدولية ISO.</p>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              {lang === 'ar' ? 'التزام بتوريد أنظمة السلامة والإطفاء وفق أعلى معايير الجودة الدولية ISO.' : 'Committed to supplying safety & fire systems compliant with global ISO standards.'}
+            </p>
           </div>
 
           <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 hover:border-blue-300 transition-colors">
             <CheckCircle2 className="w-8 h-8 text-[#2B3990]" />
             <h3 className="text-base font-bold text-slate-900 font-cairo">{t('aboutValue2')}</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">استجابة سريعة ودقة تامة في تنفيذ ونشر الفرَق الفنية وعقود الصيانة.</p>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              {lang === 'ar' ? 'استجابة سريعة ودقة تامة في تنفيذ ونشر الفرَق الفنية وعقود الصيانة.' : 'Rapid response and precision in deploying technical teams & maintenance contracts.'}
+            </p>
           </div>
 
           <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 hover:border-amber-300 transition-colors">
             <CheckCircle2 className="w-8 h-8 text-amber-500" />
             <h3 className="text-base font-bold text-slate-900 font-cairo">{t('aboutValue3')}</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">توفير أحدث التقنيات الذكية وأنظمة المراقبة والتحكم بالدخول المتطورة.</p>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              {lang === 'ar' ? 'توفير أحدث التقنيات الذكية وأنظمة المراقبة والتحكم بالدخول المتطورة.' : 'Providing smart security tech, CCTV surveillance & advanced access control.'}
+            </p>
           </div>
 
           <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 hover:border-emerald-300 transition-colors">
             <CheckCircle2 className="w-8 h-8 text-emerald-600" />
             <h3 className="text-base font-bold text-slate-900 font-cairo">{t('aboutValue4')}</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">الحفاظ على أرواح وممتلكات المنشآت والمجتمعات وفق الرؤية والأنظمة الوطنية.</p>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              {lang === 'ar' ? 'الحفاظ على أرواح وممتلكات المنشآت والمجتمعات وفق الرؤية والأنظمة الوطنية.' : 'Safeguarding lives and enterprise assets in alignment with Saudi Vision.'}
+            </p>
           </div>
         </div>
       </div>

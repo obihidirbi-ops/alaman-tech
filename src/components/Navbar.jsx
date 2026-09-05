@@ -76,21 +76,21 @@ export default function Navbar() {
             <a
               href={`tel:${settings.phone}`}
               className="p-1.5 hover:text-[#E31E24] hover:bg-slate-100 rounded-lg transition-colors"
-              title="اتصل بنا"
+              title={lang === 'ar' ? 'اتصل بنا' : 'Call Us'}
             >
               <Phone className="w-4 h-4" />
             </a>
             <a
               href={`mailto:${settings.email}`}
               className="p-1.5 hover:text-[#2B3990] hover:bg-slate-100 rounded-lg transition-colors"
-              title="البريد الإلكتروني"
+              title={lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}
             >
               <Mail className="w-4 h-4" />
             </a>
             <button
               onClick={toggleLanguage}
               className="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
-              title="تغيير اللغة"
+              title={lang === 'ar' ? 'تغيير اللغة' : 'Switch Language'}
             >
               <Globe className="w-4 h-4" />
             </button>

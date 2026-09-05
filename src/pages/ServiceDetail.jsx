@@ -16,9 +16,11 @@ export default function ServiceDetail() {
   if (!service) {
     return (
       <div className="py-20 text-center max-w-xl mx-auto space-y-4">
-        <h2 className="text-2xl font-bold text-slate-800">الخدمة غير موجودة</h2>
+        <h2 className="text-2xl font-bold text-slate-800">
+          {lang === 'ar' ? 'الخدمة غير موجودة' : 'Service Not Found'}
+        </h2>
         <Link to="/services" className="text-sm font-bold text-[#E31E24] hover:underline">
-          العودة لصفحة الخدمات
+          {lang === 'ar' ? 'العودة لصفحة الخدمات' : 'Back to Services'}
         </Link>
       </div>
     );

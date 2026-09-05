@@ -31,13 +31,23 @@ export default function ContactUs() {
       });
 
       // Trigger automatic mailto client dispatch to Info@alamantec.com & alamansmm@gmail.com
-      const mailSubject = encodeURIComponent(`رسالة استفسار جديدة من: ${formData.full_name}`);
+      const mailSubject = encodeURIComponent(
+        lang === 'ar'
+          ? `رسالة استفسار جديدة من: ${formData.full_name}`
+          : `New Inquiry Message from: ${formData.full_name}`
+      );
       const mailBody = encodeURIComponent(
-        `الاسم الكامل: ${formData.full_name}\n` +
-        `اسم الشركة: ${formData.company_name}\n` +
-        `رقم الجوال: ${formData.phone}\n` +
-        `البريد الإلكتروني: ${formData.email}\n` +
-        `نص الرسالة والاستفسار:\n${formData.message}`
+        lang === 'ar'
+          ? `الاسم الكامل: ${formData.full_name}\n` +
+            `اسم الشركة: ${formData.company_name}\n` +
+            `رقم الجوال: ${formData.phone}\n` +
+            `البريد الإلكتروني: ${formData.email}\n` +
+            `نص الرسالة والاستفسار:\n${formData.message}`
+          : `Full Name: ${formData.full_name}\n` +
+            `Company Name: ${formData.company_name}\n` +
+            `Phone: ${formData.phone}\n` +
+            `Email: ${formData.email}\n` +
+            `Message/Inquiry:\n${formData.message}`
       );
 
       window.location.href = `mailto:Info@alamantec.com,alamansmm@gmail.com?subject=${mailSubject}&body=${mailBody}`;
@@ -50,11 +60,17 @@ export default function ContactUs() {
   const rawWhatsapp = (settings.whatsapp || '966539988289').replace(/[^0-9]/g, '');
 
   const whatsappMessage = encodeURIComponent(
-    `مرحباً شركة تقنية الأمان الأولى المحدودة، أرغب في الاستفسار عن طريق موقعكم:\n` +
-    `👤 الاسم: ${formData.full_name}\n` +
-    `🏢 الشركة: ${formData.company_name}\n` +
-    `📞 الجوال: ${formData.phone}\n` +
-    `📝 الرسالة: ${formData.message}`
+    lang === 'ar'
+      ? `مرحباً شركة تقنية الأمان الأولى المحدودة، أرغب في الاستفسار عن طريق موقعكم:\n` +
+        `👤 الاسم: ${formData.full_name}\n` +
+        `🏢 الشركة: ${formData.company_name}\n` +
+        `📞 الجوال: ${formData.phone}\n` +
+        `📝 الرسالة: ${formData.message}`
+      : `Hello First Security Technology Co. Ltd., I would like to make an inquiry via your website:\n` +
+        `👤 Name: ${formData.full_name}\n` +
+        `🏢 Company: ${formData.company_name}\n` +
+        `📞 Phone: ${formData.phone}\n` +
+        `📝 Message: ${formData.message}`
   );
 
   return (
@@ -79,7 +95,7 @@ export default function ContactUs() {
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
             <h3 className="text-xl font-bold text-slate-900 font-cairo border-b pb-3 border-slate-100">
-              معلومات الاتصال المباشر
+              {lang === 'ar' ? 'معلومات الاتصال المباشر' : 'Direct Contact Info'}
             </h3>
 
             <div className="space-y-5 text-sm text-slate-700">
@@ -90,9 +106,11 @@ export default function ContactUs() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-500">المقر الرئيسي:</div>
+                  <div className="font-bold text-xs text-slate-500">{lang === 'ar' ? 'المقر الرئيسي:' : 'Headquarters:'}</div>
                   <div className="font-bold text-slate-900 leading-relaxed">
-                    الدمام — طريق الجبيل الظهران السريع، مبنى 8434
+                    {lang === 'ar'
+                      ? settings.address_ar || 'الدمام — طريق الجبيل الظهران السريع، مبنى 8434'
+                      : settings.address_en || 'Dammam — Jubail Dhahran Expressway, Building 8434'}
                   </div>
                 </div>
               </div>
@@ -103,7 +121,7 @@ export default function ContactUs() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-500">أرقام الاتصال المباشر:</div>
+                  <div className="font-bold text-xs text-slate-500">{lang === 'ar' ? 'أرقام الاتصال المباشر:' : 'Direct Phone Numbers:'}</div>
                   <div className="space-y-1 pt-1 font-mono font-bold text-slate-900">
                     <div>
                       <a href="tel:+966557845724" dir="ltr" className="hover:text-[#E31E24] transition-colors">
@@ -125,7 +143,7 @@ export default function ContactUs() {
                   <MessageSquare className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-500">محادثة واتساب المباشرة:</div>
+                  <div className="font-bold text-xs text-slate-500">{lang === 'ar' ? 'محادثة واتساب المباشرة:' : 'Direct WhatsApp Chat:'}</div>
                   <a
                     href={`https://wa.me/${rawWhatsapp}`}
                     target="_blank"
@@ -144,7 +162,7 @@ export default function ContactUs() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-500">البريد الإلكتروني الرسمي:</div>
+                  <div className="font-bold text-xs text-slate-500">{lang === 'ar' ? 'البريد الإلكتروني الرسمي:' : 'Official Email:'}</div>
                   <div className="space-y-1 pt-1 font-mono font-bold text-slate-900">
                     <div>
                       <a href="mailto:Info@alamantec.com" className="hover:text-[#E31E24] transition-colors">
@@ -166,7 +184,7 @@ export default function ContactUs() {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-xs text-slate-500">أوقات العمل:</div>
+                  <div className="font-bold text-xs text-slate-500">{lang === 'ar' ? 'أوقات العمل:' : 'Working Hours:'}</div>
                   <div className="font-bold text-slate-900">
                     {lang === 'ar' ? settings.working_hours_ar : settings.working_hours_en}
                   </div>
@@ -179,7 +197,7 @@ export default function ContactUs() {
           {/* Official Social Links Card */}
           <div className="bg-slate-900 text-white p-6 rounded-3xl space-y-3 shadow-lg">
             <h4 className="font-bold text-sm font-cairo text-slate-200">
-              تابعونا على منصات التواصل الاجتماعي:
+              {lang === 'ar' ? 'تابعونا على منصات التواصل الاجتماعي:' : 'Follow Us on Social Media:'}
             </h4>
             <div className="flex flex-wrap gap-2">
               <a href={settings.tiktok_url} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 bg-slate-800 hover:bg-[#E31E24] text-xs font-bold rounded-lg transition-colors">
@@ -205,7 +223,7 @@ export default function ContactUs() {
         <div className="lg:col-span-7">
           <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-xl space-y-6">
             <h3 className="text-xl font-bold text-slate-900 font-cairo border-b pb-3 border-slate-100">
-              إرسال استفسار مباشر
+              {lang === 'ar' ? 'إرسال استفسار مباشر' : 'Send a Direct Inquiry'}
             </h3>
 
             {submitted ? (
@@ -215,10 +233,13 @@ export default function ContactUs() {
                 </div>
                 <div className="space-y-2">
                   <h4 className="text-2xl font-bold text-slate-900 font-cairo">
-                    تم إرسال استفسارك بنجاح!
+                    {lang === 'ar' ? 'تم إرسال استفسارك بنجاح!' : 'Your inquiry has been sent successfully!'}
                   </h4>
                   <p className="text-sm text-slate-600 max-w-md mx-auto">
-                    تم توجيه الرسالة آلياً إلى بريد الشركة الرسمي (<span className="font-mono text-[#E31E24] font-bold">Info@alamantec.com</span> و <span className="font-mono text-[#2B3990] font-bold">alamansmm@gmail.com</span>) وسيجيبكم فريق العمل فوراً.
+                    {lang === 'ar'
+                      ? <>تم توجيه الرسالة آلياً إلى بريد الشركة الرسمي (<span className="font-mono text-[#E31E24] font-bold">Info@alamantec.com</span> و <span className="font-mono text-[#2B3990] font-bold">alamansmm@gmail.com</span>) وسيجيبكم فريق العمل فوراً.</>
+                      : <>The message was automatically routed to our official company email (<span className="font-mono text-[#E31E24] font-bold">Info@alamantec.com</span> & <span className="font-mono text-[#2B3990] font-bold">alamansmm@gmail.com</span>). Our team will respond shortly.</>
+                    }
                   </p>
                 </div>
 
@@ -230,7 +251,7 @@ export default function ContactUs() {
                     className="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all"
                   >
                     <MessageSquare className="w-4 h-4" />
-                    <span>متابعة الاستفسار عبر الواتساب</span>
+                    <span>{lang === 'ar' ? 'متابعة الاستفسار عبر الواتساب' : 'Follow up via WhatsApp'}</span>
                   </a>
                 </div>
 
@@ -239,7 +260,7 @@ export default function ContactUs() {
                     onClick={() => setSubmitted(false)}
                     className="text-xs font-bold text-slate-500 hover:text-slate-900 underline"
                   >
-                    إرسال رسالة أخرى
+                    {lang === 'ar' ? 'إرسال رسالة أخرى' : 'Send Another Message'}
                   </button>
                 </div>
               </div>
@@ -292,7 +313,9 @@ export default function ContactUs() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">نص الرسالة أو الاستفسار *</label>
+                  <label className="text-xs font-bold text-slate-700">
+                    {lang === 'ar' ? 'نص الرسالة أو الاستفسار *' : 'Message or Inquiry *'}
+                  </label>
                   <textarea
                     rows={4}
                     required
@@ -308,11 +331,11 @@ export default function ContactUs() {
                   className="w-full py-4 bg-gradient-to-r from-[#E31E24] to-[#2B3990] text-white font-extrabold text-sm rounded-xl shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
                 >
                   {loading ? (
-                    <span>جاري إرسال الرسالة والبريد...</span>
+                    <span>{lang === 'ar' ? 'جاري إرسال الرسالة والبريد...' : 'Sending message and email...'}</span>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>إرسال الرسالة إلى شركة الأمان الأولى</span>
+                      <span>{lang === 'ar' ? 'إرسال الرسالة إلى شركة الأمان الأولى' : 'Send Message to First Security Co.'}</span>
                     </>
                   )}
                 </button>

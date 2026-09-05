@@ -36,8 +36,14 @@ export default class ErrorBoundary extends React.Component {
               <h2 className="text-2xl font-black font-cairo text-white">
                 شركة تقنية الأمان الأولى المحدودة
               </h2>
-              <p className="text-slate-300 text-xs">
+              <p className="text-slate-400 text-xs font-mono">
+                First Security Technology Co. Ltd.
+              </p>
+              <p className="text-slate-300 text-xs pt-1">
                 حدث استثناء فني غير متوقع. يرجى تحديث الصفحة أو العودة للرئيسية.
+              </p>
+              <p className="text-slate-400 text-xs">
+                An unexpected error occurred. Please reload the page or return home.
               </p>
             </div>
 
@@ -47,7 +53,7 @@ export default class ErrorBoundary extends React.Component {
                 className="flex-1 py-3 bg-[#E31E24] hover:bg-[#C41419] text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition-all"
               >
                 <RefreshCw className="w-4 h-4" />
-                <span>إعادة تحميل الصفحة</span>
+                <span>إعادة تحميل / Reload</span>
               </button>
 
               <button
@@ -55,7 +61,7 @@ export default class ErrorBoundary extends React.Component {
                 className="flex-1 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs rounded-xl border border-slate-600 flex items-center justify-center gap-2 transition-all"
               >
                 <Home className="w-4 h-4" />
-                <span>الصفحة الرئيسية</span>
+                <span>الرئيسية / Home</span>
               </button>
             </div>
           </div>

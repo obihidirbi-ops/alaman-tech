@@ -23,7 +23,9 @@ export default function Footer() {
 
             {/* Official Social Media Buttons */}
             <div className="space-y-2 pt-2">
-              <span className="text-xs font-bold text-slate-300 block">تابعونا على منصات التواصل الاجتماعـي:</span>
+              <span className="text-xs font-bold text-slate-300 block">
+                {lang === 'ar' ? 'تابعونا على منصات التواصل الاجتماعـي:' : 'Follow Us on Social Media:'}
+              </span>
               <div className="flex flex-wrap items-center gap-2">
                 {settings.tiktok_url && (
                   <a
@@ -31,7 +33,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2.5 bg-slate-800 hover:bg-[#E31E24] text-white rounded-xl transition-all duration-200 text-xs font-bold flex items-center gap-1.5 shadow-sm"
-                    title="تيك توك"
+                    title={lang === 'ar' ? "تيك توك" : "TikTok"}
                   >
                     <span>TikTok</span>
                   </a>
@@ -42,7 +44,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2.5 bg-slate-800 hover:bg-[#2B3990] text-white rounded-xl transition-all duration-200 text-xs font-bold flex items-center gap-1.5 shadow-sm"
-                    title="فيسبوك"
+                    title={lang === 'ar' ? "فيسبوك" : "Facebook"}
                   >
                     <span>Facebook</span>
                   </a>
@@ -53,7 +55,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2.5 bg-slate-800 hover:bg-pink-600 text-white rounded-xl transition-all duration-200 text-xs font-bold flex items-center gap-1.5 shadow-sm"
-                    title="إنستغرام"
+                    title={lang === 'ar' ? "إنستغرام" : "Instagram"}
                   >
                     <span>Instagram</span>
                   </a>
@@ -64,7 +66,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2.5 bg-slate-800 hover:bg-sky-500 text-white rounded-xl transition-all duration-200 text-xs font-bold flex items-center gap-1.5 shadow-sm"
-                    title="تويتر (X)"
+                    title={lang === 'ar' ? "تويتر (X)" : "Twitter (X)"}
                   >
                     <span>X / Twitter</span>
                   </a>
@@ -75,7 +77,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2.5 bg-slate-800 hover:bg-amber-400 hover:text-slate-900 text-white rounded-xl transition-all duration-200 text-xs font-bold flex items-center gap-1.5 shadow-sm"
-                    title="سناب شات"
+                    title={lang === 'ar' ? "سناب شات" : "Snapchat"}
                   >
                     <span>Snapchat</span>
                   </a>
@@ -221,7 +223,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors text-xs flex items-center gap-1"
                 >
-                  <span>واتساب: {settings.whatsapp}</span>
+                  <span>{lang === 'ar' ? 'واتساب:' : 'WhatsApp:'} {settings.whatsapp}</span>
                 </a>
               </div>
 

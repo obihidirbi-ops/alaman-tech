@@ -101,7 +101,7 @@ export default function ProjectsCatalog() {
                   {/* Gallery Count Badge */}
                   <div className="absolute bottom-3 start-3 bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-lg border border-slate-700 flex items-center gap-1.5">
                     <Images className="w-3.5 h-3.5 text-[#E31E24]" />
-                    <span>{gallery.length} صور للمشروع</span>
+                    <span>{gallery.length} {lang === 'ar' ? 'صور للمشروع' : 'Project Photos'}</span>
                   </div>
                 </div>
 

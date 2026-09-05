@@ -44,16 +44,29 @@ export default function RequestQuote() {
       });
 
       // 2. Trigger automatic mailto client dispatch to Info@alamantec.com & alamansmm@gmail.com
-      const mailSubject = encodeURIComponent(`طلب عرض سعر جديد: ${formData.company_name || formData.full_name}`);
+      const mailSubject = encodeURIComponent(
+        lang === 'ar'
+          ? `طلب عرض سعر جديد: ${formData.company_name || formData.full_name}`
+          : `New Quotation Request: ${formData.company_name || formData.full_name}`
+      );
       const mailBody = encodeURIComponent(
-        `الاسم الكامل: ${formData.full_name}\n` +
-        `اسم الشركة: ${formData.company_name}\n` +
-        `رقم الجوال: ${formData.phone}\n` +
-        `البريد الإلكتروني: ${formData.email}\n` +
-        `الخدمة المطلوبة: ${formData.service_slug}\n` +
-        `نوع المشروع: ${formData.project_type}\n` +
-        `الموقع: ${formData.project_location}\n` +
-        `تفاصيل الطلب: ${formData.message}`
+        lang === 'ar'
+          ? `الاسم الكامل: ${formData.full_name}\n` +
+            `اسم الشركة: ${formData.company_name}\n` +
+            `رقم الجوال: ${formData.phone}\n` +
+            `البريد الإلكتروني: ${formData.email}\n` +
+            `الخدمة المطلوبة: ${formData.service_slug}\n` +
+            `نوع المشروع: ${formData.project_type}\n` +
+            `الموقع: ${formData.project_location}\n` +
+            `تفاصيل الطلب: ${formData.message}`
+          : `Full Name: ${formData.full_name}\n` +
+            `Company Name: ${formData.company_name}\n` +
+            `Phone: ${formData.phone}\n` +
+            `Email: ${formData.email}\n` +
+            `Required Service: ${formData.service_slug}\n` +
+            `Project Type: ${formData.project_type}\n` +
+            `Location: ${formData.project_location}\n` +
+            `Details: ${formData.message}`
       );
 
       // Open mailto dispatch in background/new window
@@ -64,15 +77,25 @@ export default function RequestQuote() {
     }, 600);
   };
 
-  const selectedServiceName = services.find(s => s.slug === formData.service_slug)?.title_ar || formData.service_slug;
+  const selectedServiceObj = services.find(s => s.slug === formData.service_slug);
+  const selectedServiceName = selectedServiceObj
+    ? (lang === 'ar' ? selectedServiceObj.title_ar : selectedServiceObj.title_en)
+    : formData.service_slug;
 
   const whatsappMessage = encodeURIComponent(
-    `مرحباً شركة تقنية الأمان الأولى، قمت برفع طلب عرض سعر:\n` +
-    `👤 الاسم: ${formData.full_name}\n` +
-    `🏢 الشركة: ${formData.company_name}\n` +
-    `📞 الجوال: ${formData.phone}\n` +
-    `🔧 الخدمة: ${selectedServiceName}\n` +
-    `📝 التفاصيل: ${formData.message}`
+    lang === 'ar'
+      ? `مرحباً شركة تقنية الأمان الأولى، قمت برفع طلب عرض سعر:\n` +
+        `👤 الاسم: ${formData.full_name}\n` +
+        `🏢 الشركة: ${formData.company_name}\n` +
+        `📞 الجوال: ${formData.phone}\n` +
+        `🔧 الخدمة: ${selectedServiceName}\n` +
+        `📝 التفاصيل: ${formData.message}`
+      : `Hello First Security Technology Co., I have submitted a quote request:\n` +
+        `👤 Name: ${formData.full_name}\n` +
+        `🏢 Company: ${formData.company_name}\n` +
+        `📞 Phone: ${formData.phone}\n` +
+        `🔧 Service: ${selectedServiceName}\n` +
+        `📝 Details: ${formData.message}`
   );
 
   const rawWhatsapp = (settings.whatsapp || '966539988289').replace(/[^0-9]/g, '');
@@ -101,10 +124,13 @@ export default function RequestQuote() {
             </div>
             <div className="space-y-2">
               <h3 className="text-2xl font-bold text-slate-900 font-cairo">
-                تم استلام طلبك بنجاح!
+                {lang === 'ar' ? 'تم استلام طلبك بنجاح!' : 'Your quotation request was submitted successfully!'}
               </h3>
               <p className="text-sm text-slate-600 max-w-md mx-auto">
-                تم توجيه نسخة من الطلب آلياً إلى بريد الشركة الرسمي (<span className="font-mono text-[#E31E24] font-bold">Info@alamantec.com</span> و <span className="font-mono text-[#2B3990] font-bold">alamansmm@gmail.com</span>) وسيتواصل معكم فريقنا الهندسي في أقرب وقت.
+                {lang === 'ar'
+                  ? <>تم توجيه نسخة من الطلب آلياً إلى بريد الشركة الرسمي (<span className="font-mono text-[#E31E24] font-bold">Info@alamantec.com</span> و <span className="font-mono text-[#2B3990] font-bold">alamansmm@gmail.com</span>) وسيتواصل معكم فريقنا الهندسي في أقرب وقت.</>
+                  : <>A copy of your request was automatically routed to our official company emails (<span className="font-mono text-[#E31E24] font-bold">Info@alamantec.com</span> & <span className="font-mono text-[#2B3990] font-bold">alamansmm@gmail.com</span>). Our engineering team will contact you shortly.</>
+                }
               </p>
             </div>
 
@@ -117,15 +143,15 @@ export default function RequestQuote() {
                 className="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all"
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>متابعة الطلب فوراً عبر الواتساب</span>
+                <span>{lang === 'ar' ? 'متابعة الطلب فوراً عبر الواتساب' : 'Follow up immediately via WhatsApp'}</span>
               </a>
 
               <a
-                href={`mailto:Info@alamantec.com,alamansmm@gmail.com?subject=طلب عرض سعر - ${encodeURIComponent(formData.company_name)}`}
+                href={`mailto:Info@alamantec.com,alamansmm@gmail.com?subject=${encodeURIComponent(lang === 'ar' ? `طلب عرض سعر - ${formData.company_name}` : `Quotation Request - ${formData.company_name}`)}`}
                 className="w-full sm:w-auto px-6 py-3.5 bg-[#2B3990] hover:bg-[#1E286C] text-white font-extrabold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all"
               >
                 <Mail className="w-4 h-4" />
-                <span>إرسال نسخة مباشرة للبريد الإلكتروني</span>
+                <span>{lang === 'ar' ? 'إرسال نسخة مباشرة للبريد الإلكتروني' : 'Send direct copy via Email'}</span>
               </a>
             </div>
 
@@ -134,7 +160,7 @@ export default function RequestQuote() {
                 onClick={() => setSubmitted(false)}
                 className="text-xs font-bold text-slate-500 hover:text-slate-900 underline"
               >
-                إرسال طلب عرض سعر آخر
+                {lang === 'ar' ? 'إرسال طلب عرض سعر آخر' : 'Submit another quotation request'}
               </button>
             </div>
           </div>
@@ -195,7 +221,7 @@ export default function RequestQuote() {
                   onChange={(e) => setFormData({ ...formData, service_slug: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:outline-none focus:border-[#E31E24]"
                 >
-                  <option value="">-- اختر الخدمة المطلوبة --</option>
+                  <option value="">{lang === 'ar' ? '-- اختر الخدمة المطلوبة --' : '-- Select Required Service --'}</option>
                   {services.map((serv) => (
                     <option key={serv.id} value={serv.slug}>
                       {lang === 'ar' ? serv.title_ar : serv.title_en}
@@ -209,7 +235,7 @@ export default function RequestQuote() {
                 <input
                   type="text"
                   required
-                  placeholder="مثال: الدمام - طريق الجبيل"
+                  placeholder={lang === 'ar' ? "مثال: الدمام - طريق الجبيل" : "e.g. Dammam - Jubail Highway"}
                   value={formData.project_location}
                   onChange={(e) => setFormData({ ...formData, project_location: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:outline-none focus:border-[#E31E24]"
@@ -222,7 +248,7 @@ export default function RequestQuote() {
               <textarea
                 rows={4}
                 required
-                placeholder="اكتب تفاصيل المشروع والمساحة والاشتراطات المطلوبة..."
+                placeholder={lang === 'ar' ? "اكتب تفاصيل المشروع والمساحة والاشتراطات المطلوبة..." : "Enter project details, area size, and specifications..."}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-sm focus:outline-none focus:border-[#E31E24]"
@@ -235,11 +261,11 @@ export default function RequestQuote() {
               className="w-full py-4 bg-gradient-to-r from-[#E31E24] to-[#2B3990] text-white font-extrabold text-sm rounded-xl shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
             >
               {loading ? (
-                <span>جاري إرسال الطلب والبريد...</span>
+                <span>{lang === 'ar' ? 'جاري إرسال الطلب والبريد...' : 'Sending request & email...'}</span>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  <span>إرسال طلب عرض السعر</span>
+                  <span>{lang === 'ar' ? 'إرسال طلب عرض السعر' : 'Submit Quotation Request'}</span>
                 </>
               )}
             </button>

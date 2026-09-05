@@ -145,6 +145,7 @@ export const translations = {
     heroTitle: "Integrated Solutions for Safety, Security, IT & Engineering",
     heroSubtitle: "We deliver exceptional turnkey solutions in Fire Protection, Early Warning Alarms, Occupational Safety, CCTV & Security Systems, IT Infrastructure, Audio Systems, and Certified Engineering Drawings.",
     heroCtaQuote: "Request a Quote Now",
+    heroCtaConsultation: "Request Engineering Consultation",
     heroCtaWhatsapp: "Chat on WhatsApp",
     heroBadgeSafety: "Civil Defense Approved",
     heroBadgeTech: "Smart Next-Gen Tech",
