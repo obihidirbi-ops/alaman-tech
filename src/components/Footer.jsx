@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import Logo from './Logo';
 import { Phone, Mail, MapPin, Clock, Shield, ArrowUpRight, MessageSquare, FileText } from 'lucide-react';
+import { openPdfDocument } from '../utils/openDocument';
 
 export default function Footer() {
   const { t, isRTL, lang } = useLanguage();
@@ -129,15 +130,14 @@ export default function Footer() {
               </li>
               {settings.company_profile_url && (
                 <li>
-                  <a
-                    href={settings.company_profile_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-amber-400 font-bold hover:text-amber-300 hover:translate-x-1 transition-all inline-flex items-center gap-1.5"
+                  <button
+                    type="button"
+                    onClick={() => openPdfDocument(settings.company_profile_url)}
+                    className="text-amber-400 font-bold hover:text-amber-300 hover:translate-x-1 transition-all inline-flex items-center gap-1.5 cursor-pointer text-start bg-transparent border-0 p-0 font-tajawal"
                   >
                     <FileText className="w-4 h-4 text-amber-400" />
                     <span>{lang === 'ar' ? 'البروفايل التعريفي (PDF)' : 'Company Profile (PDF)'}</span>
-                  </a>
+                  </button>
                 </li>
               )}
               <li>

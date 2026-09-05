@@ -16,31 +16,43 @@ export default function AdminSettings() {
     setFormData({ ...settings });
   }, [settings]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSave = (e) => {
+    if (e) e.preventDefault();
     updateSettings(formData);
     setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    setTimeout(() => setSaved(false), 4000);
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-20">
       
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+      {/* Header Banner with Top Save Button */}
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-20 z-40">
         <div>
           <h1 className="text-xl font-bold text-slate-900 font-cairo">{t('manageSettings')}</h1>
-          <p className="text-xs text-slate-500">تحديث الشعار، الملف التعريفي PDF، الهواتف، رقم الواتساب، النبذة، والعدادات فوراً من جهازك</p>
+          <p className="text-xs text-slate-500">تحديث الشعار، الملف التعريفي PDF، الهواتف، رقم الواتساب، النبذة، والعدادات فوراً</p>
         </div>
 
-        {saved && (
-          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>تم حفظ التعديلات بنجاح!</span>
-          </div>
-        )}
+        <div className="flex items-center gap-3">
+          {saved && (
+            <div className="bg-emerald-50 border border-emerald-300 text-emerald-700 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm animate-pulse">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>تم حفظ التعديلات بنجاح!</span>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={handleSave}
+            className="px-6 py-2.5 bg-gradient-to-r from-[#E31E24] to-[#2B3990] text-white font-extrabold text-xs rounded-xl shadow-md hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+          >
+            <Save className="w-4 h-4" />
+            <span>حفظ جميع التعديلات</span>
+          </button>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 text-xs">
+      <form onSubmit={handleSave} className="space-y-6 text-xs">
         
         {/* Section 0: Custom Logo Upload */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -305,8 +317,9 @@ export default function AdminSettings() {
         </div>
 
         <button
-          type="submit"
-          className="px-8 py-3.5 bg-gradient-to-r from-[#E31E24] to-[#2B3990] text-white font-extrabold text-xs rounded-xl shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 ms-auto"
+          type="button"
+          onClick={handleSave}
+          className="px-8 py-3.5 bg-gradient-to-r from-[#E31E24] to-[#2B3990] text-white font-extrabold text-xs rounded-xl shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 ms-auto cursor-pointer active:scale-95"
         >
           <Save className="w-4 h-4" />
           <span>حفظ جميع إعدادات الموقع</span>

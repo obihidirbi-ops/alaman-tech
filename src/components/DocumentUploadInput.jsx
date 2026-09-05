@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Upload, FileText, X, ExternalLink, Info, CheckCircle2 } from 'lucide-react';
+import { openPdfDocument } from '../utils/openDocument';
 
 /**
  * DocumentUploadInput Component
@@ -49,8 +50,6 @@ export default function DocumentUploadInput({
     onChange('');
   };
 
-  const isPdfOrData = value && (value.startsWith('data:application/pdf') || value.toLowerCase().includes('.pdf') || value.startsWith('http'));
-
   return (
     <div className="space-y-3 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
       <div className="flex flex-wrap items-center justify-between gap-1">
@@ -99,26 +98,25 @@ export default function DocumentUploadInput({
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               </div>
               <div className="text-[11px] text-slate-500 font-mono">
-                {fileSize ? `حجم الملف: ${fileSize}` : (value.length > 100 ? `رمز بياني جاهز للتحميل` : value)}
+                {fileSize ? `حجم الملف: ${fileSize}` : (value.length > 100 ? `رمز بياني جاهز للتحميل والتصفح` : value)}
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <a
-              href={value}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-1.5 bg-slate-900 text-white hover:bg-slate-800 rounded-lg font-bold text-xs flex items-center gap-1 transition-colors"
+            <button
+              type="button"
+              onClick={() => openPdfDocument(value)}
+              className="px-3.5 py-2 bg-slate-900 text-white hover:bg-[#E31E24] rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm cursor-pointer"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               <span>تصفح الملف الآن</span>
-            </a>
+            </button>
 
             <button
               type="button"
               onClick={handleClear}
-              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
               title="إزالة الملف"
             >
               <X className="w-4 h-4" />

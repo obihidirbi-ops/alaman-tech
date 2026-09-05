@@ -546,7 +546,7 @@ export const DataProvider = ({ children }) => {
   // Site Settings State
   const [settings, setSettings] = useState(() => {
     try {
-      const saved = localStorage.getItem('alaman_settings_v6') || localStorage.getItem('alaman_settings_v5');
+      const saved = localStorage.getItem('alaman_settings_v6') || sessionStorage.getItem('alaman_settings_v6') || localStorage.getItem('alaman_settings_v5');
       return saved ? { ...INITIAL_SETTINGS, ...JSON.parse(saved) } : INITIAL_SETTINGS;
     } catch {
       return INITIAL_SETTINGS;
@@ -568,7 +568,7 @@ export const DataProvider = ({ children }) => {
     return Boolean(localStorage.getItem('alaman_admin_session'));
   });
 
-  // Save to LocalStorage on change with try-catch fallback
+  // Save to LocalStorage & SessionStorage on change with try-catch fallback
   useEffect(() => {
     try {
       localStorage.setItem('alaman_services_v6', JSON.stringify(services));
@@ -597,7 +597,12 @@ export const DataProvider = ({ children }) => {
     try {
       localStorage.setItem('alaman_settings_v6', JSON.stringify(settings));
     } catch (e) {
-      console.warn('Failed to save settings to localStorage', e);
+      console.warn('Failed to save settings to localStorage, trying sessionStorage...', e);
+      try {
+        sessionStorage.setItem('alaman_settings_v6', JSON.stringify(settings));
+      } catch (e2) {
+        console.warn('SessionStorage quota fallback also exceeded', e2);
+      }
     }
   }, [settings]);
 
