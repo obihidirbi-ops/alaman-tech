@@ -17,7 +17,8 @@ import {
   Building2,
   Filter,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  FileText
 } from 'lucide-react';
 
 export default function Home() {
@@ -126,15 +127,26 @@ export default function Home() {
               {lang === 'ar' ? currentSlide.title_ar : currentSlide.title_en}
             </h1>
 
-            {/* Red Solid CTA Button */}
-            <div className="pt-2 flex items-center gap-4">
+            {/* CTA Buttons: Red Consultation Button + Company Profile Button Side by Side */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <Link
                 to="/request-quote"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white bg-[#E31E24] hover:bg-[#C41419] rounded-xl shadow-lg hover:shadow-red-600/40 transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 text-sm sm:text-base font-bold text-white bg-[#E31E24] hover:bg-[#C41419] rounded-xl shadow-lg hover:shadow-red-600/40 transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 shrink-0"
               >
                 <span>{t('heroCtaConsultation')}</span>
                 <ArrowIcon className="w-5 h-5" />
               </Link>
+
+              <a
+                href={settings.company_profile_url || '/about'}
+                target={settings.company_profile_url ? "_blank" : "_self"}
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm sm:text-base font-bold text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 hover:border-white/60 rounded-xl shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 shrink-0"
+                title={lang === 'ar' ? 'تصفح البروفايل التعريفي للشركة (PDF)' : 'Company Profile PDF'}
+              >
+                <FileText className="w-5 h-5 text-amber-400" />
+                <span>{lang === 'ar' ? 'تصفح البروفايل التعريفي' : 'Company Profile'}</span>
+              </a>
             </div>
 
           </div>
