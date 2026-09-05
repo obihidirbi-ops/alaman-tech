@@ -14,18 +14,18 @@ export default function Logo({ className = "h-12", showText = true, variant = "d
     ? "text-slate-300" 
     : "text-[#2B3990] [text-shadow:_0_1px_1px_rgba(0,0,0,0.15)]";
 
-  if (settings?.custom_logo_url) {
-    return (
-      <img
-        src={settings.custom_logo_url}
-        alt="Al-Aman Al-Awal Technology Co."
-        className={`object-contain ${className}`}
-      />
-    );
-  }
-
   return (
-    <div className={`inline-flex items-center gap-2 select-none ${className}`}>
+    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
+      {/* Custom Uploaded Logo Image (if available) */}
+      {settings?.custom_logo_url && (
+        <img
+          src={settings.custom_logo_url}
+          alt="Al-Aman Al-Awal Technology Co."
+          className="h-10 sm:h-12 object-contain shrink-0"
+        />
+      )}
+
+      {/* Official Company Name Typography Always Displayed */}
       {showText && (
         <div className={`flex flex-col justify-center leading-tight ${isRTL ? 'text-right' : 'text-left'}`}>
           <span className={`font-black text-base sm:text-lg lg:text-xl tracking-tight font-cairo ${arabicTextColor}`}>
