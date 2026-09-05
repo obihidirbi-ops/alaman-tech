@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
-import { ShieldCheck, Target, Eye, Award, CheckCircle2, FileCheck2, Building2, Sparkles } from 'lucide-react';
+import { ShieldCheck, Target, Eye, Award, CheckCircle2, FileCheck2, Building2, Sparkles, FileText, Download } from 'lucide-react';
 
 export default function About() {
   const { t, lang } = useLanguage();
@@ -145,6 +145,40 @@ export default function About() {
             <p className="text-xs text-slate-500 leading-relaxed">الحفاظ على أرواح وممتلكات المنشآت والمجتمعات وفق الرؤية والأنظمة الوطنية.</p>
           </div>
         </div>
+      </div>
+
+      {/* 4️⃣ FOURTH SECTION: Company Profile Download CTA Banner */}
+      <div className="bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] p-8 sm:p-10 rounded-3xl text-white border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="space-y-2 text-center md:text-start">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-950/80 text-red-400 border border-red-800/80 rounded-full text-xs font-bold">
+            <FileText className="w-4 h-4" />
+            <span>{lang === 'ar' ? 'الملف التعريفي الشامل' : 'Company Profile Deck'}</span>
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-extrabold font-cairo">
+            {lang === 'ar' ? 'تصفح البروفايل الرسمي لشركة تقنية الأمان الأولى (PDF)' : 'Download Official Company Profile (PDF)'}
+          </h3>
+          <p className="text-slate-400 text-xs sm:text-sm max-w-xl">
+            {lang === 'ar' 
+              ? 'يتضمن البروفايل جميع التفاصيل الفنية الهندسية، قائمة المشاريع المنفذة، اعتمادات الدفاع المدني، ونطاق الخدمات المتاحة.'
+              : 'Explore our complete portfolio, Civil Defense certifications, engineering capabilites, and project showcases.'}
+          </p>
+        </div>
+
+        {settings.company_profile_url ? (
+          <a
+            href={settings.company_profile_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 bg-[#E31E24] hover:bg-[#C41419] text-white font-extrabold rounded-2xl shadow-lg hover:shadow-red-600/30 transition-all flex items-center gap-2 text-sm shrink-0 active:scale-95"
+          >
+            <Download className="w-5 h-5" />
+            <span>{lang === 'ar' ? 'تصفح / تحميل البروفايل (PDF)' : 'Download Profile PDF'}</span>
+          </a>
+        ) : (
+          <div className="px-6 py-3 bg-slate-800 text-slate-400 font-bold text-xs rounded-xl border border-slate-700 shrink-0">
+            {lang === 'ar' ? 'يمكنك رفع البروفايل من لوحة التحكم' : 'Upload Profile in Admin Panel'}
+          </div>
+        )}
       </div>
 
     </div>

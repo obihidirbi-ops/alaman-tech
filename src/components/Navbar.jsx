@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import Logo from './Logo';
-import { Menu, X, Globe, Phone, Mail } from 'lucide-react';
+import { Menu, X, Globe, Phone, Mail, FileText } from 'lucide-react';
 
 export default function Navbar() {
   const { t, lang, toggleLanguage, isRTL } = useLanguage();
@@ -70,9 +70,9 @@ export default function Navbar() {
         </nav>
 
         {/* Left Side: Controls & Action Button */}
-        <div className="hidden lg:flex items-center gap-4 shrink-0">
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
           {/* Quick Icons */}
-          <div className="flex items-center gap-2.5 text-slate-500 border-e border-slate-200 pe-4">
+          <div className="flex items-center gap-2.5 text-slate-500 border-e border-slate-200 pe-3">
             <a
               href={`tel:${settings.phone}`}
               className="p-1.5 hover:text-[#E31E24] hover:bg-slate-100 rounded-lg transition-colors"
@@ -115,6 +115,20 @@ export default function Navbar() {
               EN
             </button>
           </div>
+
+          {/* Company Profile PDF Button */}
+          {settings.company_profile_url && (
+            <a
+              href={settings.company_profile_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2.5 text-xs font-bold text-[#2B3990] bg-blue-50 border border-blue-200 hover:bg-blue-100 rounded-xl transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
+              title={lang === 'ar' ? 'تصفح البروفايل التعريفي للشركة (PDF)' : 'Company Profile PDF'}
+            >
+              <FileText className="w-4 h-4 text-[#2B3990]" />
+              <span>{lang === 'ar' ? 'البروفايل' : 'Profile'}</span>
+            </a>
+          )}
 
           {/* Red Solid CTA Button */}
           <Link
@@ -165,7 +179,19 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="pt-3 border-t border-slate-100">
+          <div className="pt-3 border-t border-slate-100 space-y-2">
+            {settings.company_profile_url && (
+              <a
+                href={settings.company_profile_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 bg-blue-50 border border-blue-200 text-[#2B3990] font-bold text-xs text-center rounded-xl shadow-sm flex items-center justify-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                <span>{lang === 'ar' ? 'تصفح البروفايل التعريفي (PDF)' : 'Company Profile (PDF)'}</span>
+              </a>
+            )}
+
             <Link
               to="/request-quote"
               className="w-full py-3 bg-[#E31E24] text-white font-bold text-xs text-center rounded-xl shadow-md block"

@@ -476,7 +476,8 @@ const INITIAL_SETTINGS = {
   facebook_url: "https://www.facebook.com/share/19tFof5122/",
   instagram_url: "https://www.instagram.com/alaman.tech/",
   twitter_url: "https://x.com/alamansmm",
-  snapchat_url: "https://www.snapchat.com/add/alaman.tec"
+  snapchat_url: "https://www.snapchat.com/add/alaman.tec",
+  company_profile_url: ""
 };
 
 // Initial Sample Inbox Submissions
@@ -515,7 +516,7 @@ export const DataProvider = ({ children }) => {
   // Services State
   const [services, setServices] = useState(() => {
     try {
-      const saved = localStorage.getItem('alaman_services_v5');
+      const saved = localStorage.getItem('alaman_services_v6');
       return saved ? JSON.parse(saved) : INITIAL_SERVICES;
     } catch {
       return INITIAL_SERVICES;
@@ -525,7 +526,7 @@ export const DataProvider = ({ children }) => {
   // Projects State
   const [projects, setProjects] = useState(() => {
     try {
-      const saved = localStorage.getItem('alaman_projects_v5');
+      const saved = localStorage.getItem('alaman_projects_v6');
       return saved ? JSON.parse(saved) : INITIAL_PROJECTS;
     } catch {
       return INITIAL_PROJECTS;
@@ -535,7 +536,7 @@ export const DataProvider = ({ children }) => {
   // Clients State
   const [clients, setClients] = useState(() => {
     try {
-      const saved = localStorage.getItem('alaman_clients_v5');
+      const saved = localStorage.getItem('alaman_clients_v6');
       return saved ? JSON.parse(saved) : INITIAL_CLIENTS;
     } catch {
       return INITIAL_CLIENTS;
@@ -545,7 +546,7 @@ export const DataProvider = ({ children }) => {
   // Site Settings State
   const [settings, setSettings] = useState(() => {
     try {
-      const saved = localStorage.getItem('alaman_settings_v5');
+      const saved = localStorage.getItem('alaman_settings_v6') || localStorage.getItem('alaman_settings_v5');
       return saved ? { ...INITIAL_SETTINGS, ...JSON.parse(saved) } : INITIAL_SETTINGS;
     } catch {
       return INITIAL_SETTINGS;
@@ -555,7 +556,7 @@ export const DataProvider = ({ children }) => {
   // Inbox Messages State
   const [inbox, setInbox] = useState(() => {
     try {
-      const saved = localStorage.getItem('alaman_inbox_v5');
+      const saved = localStorage.getItem('alaman_inbox_v6');
       return saved ? JSON.parse(saved) : INITIAL_INBOX;
     } catch {
       return INITIAL_INBOX;
@@ -570,7 +571,7 @@ export const DataProvider = ({ children }) => {
   // Save to LocalStorage on change with try-catch fallback
   useEffect(() => {
     try {
-      localStorage.setItem('alaman_services_v5', JSON.stringify(services));
+      localStorage.setItem('alaman_services_v6', JSON.stringify(services));
     } catch (e) {
       console.warn('Failed to save services to localStorage', e);
     }
@@ -578,7 +579,7 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem('alaman_projects_v5', JSON.stringify(projects));
+      localStorage.setItem('alaman_projects_v6', JSON.stringify(projects));
     } catch (e) {
       console.warn('Failed to save projects to localStorage', e);
     }
@@ -586,7 +587,7 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem('alaman_clients_v5', JSON.stringify(clients));
+      localStorage.setItem('alaman_clients_v6', JSON.stringify(clients));
     } catch (e) {
       console.warn('Failed to save clients to localStorage', e);
     }
@@ -594,7 +595,7 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem('alaman_settings_v5', JSON.stringify(settings));
+      localStorage.setItem('alaman_settings_v6', JSON.stringify(settings));
     } catch (e) {
       console.warn('Failed to save settings to localStorage', e);
     }
@@ -602,7 +603,7 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem('alaman_inbox_v5', JSON.stringify(inbox));
+      localStorage.setItem('alaman_inbox_v6', JSON.stringify(inbox));
     } catch (e) {
       console.warn('Failed to save inbox to localStorage', e);
     }

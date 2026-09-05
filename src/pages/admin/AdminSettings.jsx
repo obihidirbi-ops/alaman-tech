@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useData } from '../../context/DataContext';
 import ImageUploadInput from '../../components/ImageUploadInput';
+import DocumentUploadInput from '../../components/DocumentUploadInput';
 import { Save, CheckCircle2 } from 'lucide-react';
 
 export default function AdminSettings() {
@@ -28,7 +29,7 @@ export default function AdminSettings() {
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-slate-900 font-cairo">{t('manageSettings')}</h1>
-          <p className="text-xs text-slate-500">تحديث الشعار، الهواتف، رقم الواتساب، النبذة، والعدادات فوراً من جهازك</p>
+          <p className="text-xs text-slate-500">تحديث الشعار، الملف التعريفي PDF، الهواتف، رقم الواتساب، النبذة، والعدادات فوراً من جهازك</p>
         </div>
 
         {saved && (
@@ -52,6 +53,21 @@ export default function AdminSettings() {
             recommendedSize="500 × 160 px (خلفية شفافة PNG بنسبة 3:1)"
             value={formData.custom_logo_url || ''}
             onChange={(newUrl) => setFormData({ ...formData, custom_logo_url: newUrl })}
+          />
+        </div>
+
+        {/* Section 0.5: Company Profile PDF Upload */}
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h3 className="text-base font-bold text-slate-900 font-cairo border-b pb-2 border-slate-100">
+            البروفايل التعريفي للشركة (Company Profile PDF)
+          </h3>
+          
+          <DocumentUploadInput
+            label="رفع ملف البروفايل التعريفي للشركة (PDF)"
+            recommendedFormat="ملف PDF أو رابط مستند خارجي"
+            placeholder="ضع رابط ملف PDF هنا أو اختر ملفاً من جهازك..."
+            value={formData.company_profile_url || ''}
+            onChange={(newUrl) => setFormData({ ...formData, company_profile_url: newUrl })}
           />
         </div>
 
