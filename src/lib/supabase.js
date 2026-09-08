@@ -19,10 +19,8 @@ export const uploadFileToSupabase = async (file, preferredBucket = 'images') => 
     const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
     const filePath = `${fileName}`;
 
-    // Automatically try preferred bucket, singular 'image', plural 'images', and 'uploads'
-    const bucketsToTry = preferredBucket === 'images' 
-      ? ['image', 'images', 'uploads'] 
-      : [preferredBucket, 'uploads', 'image', 'images'];
+    // Automatically try all bucket variations: 'image', 'images', 'uploud', 'upload', 'uploads'
+    const bucketsToTry = ['image', 'images', 'uploud', 'upload', 'uploads'];
 
     for (const b of bucketsToTry) {
       const { data, error } = await supabase.storage.from(b).upload(filePath, file, {
@@ -30,9 +28,14 @@ export const uploadFileToSupabase = async (file, preferredBucket = 'images') => 
         upsert: true
       });
 
+      if (error) {
+        console.warn(`Supabase Storage upload attempt on bucket '${b}' warning:`, error.message);
+      }
+
       if (!error && data) {
         const { data: publicUrlData } = supabase.storage.from(b).getPublicUrl(filePath);
         if (publicUrlData?.publicUrl) {
+          console.log(`Successfully uploaded file to Supabase Storage bucket '${b}':`, publicUrlData.publicUrl);
           return publicUrlData.publicUrl;
         }
       }
