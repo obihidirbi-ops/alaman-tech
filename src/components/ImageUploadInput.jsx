@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Upload, Image as ImageIcon, X, Info } from 'lucide-react';
+import { Upload, Image as ImageIcon, X, Info, Loader2 } from 'lucide-react';
+import { uploadFileToSupabase } from '../lib/supabase';
 
 /**
- * ImageUploadInput Component with Automatic Canvas Image Compression & Resizing.
- * Prevents LocalStorage QuotaExceededError by compressing uploaded device images 
- * down to lightweight optimized Base64 strings (< 150KB).
+ * ImageUploadInput Component with Automatic Supabase Storage Upload & Canvas Compression Fallback.
  */
 export default function ImageUploadInput({
   value,
@@ -14,13 +13,13 @@ export default function ImageUploadInput({
   placeholder = "ضع رابط الصورة هنا أو اختر من جهازك..."
 }) {
   const [preview, setPreview] = useState(value || '');
+  const [uploading, setUploading] = useState(false);
 
   const compressAndSetImage = (file) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
       img.onload = () => {
-        // Resize canvas max bounds to 1000px
         const maxDimension = 1000;
         let width = img.width;
         let height = img.height;
@@ -42,19 +41,30 @@ export default function ImageUploadInput({
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Compress to webp / jpeg / png (0.85 quality)
         const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
         setPreview(compressedBase64);
         onChange(compressedBase64);
+        setUploading(false);
       };
       img.src = event.target.result;
     };
     reader.readAsDataURL(file);
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (!file) return;
+
+    setUploading(true);
+
+    // 1. Try uploading to Supabase Storage Bucket first
+    const supabasePublicUrl = await uploadFileToSupabase(file, 'images');
+    if (supabasePublicUrl) {
+      setPreview(supabasePublicUrl);
+      onChange(supabasePublicUrl);
+      setUploading(false);
+    } else {
+      // 2. Fallback to local canvas compressed image if Supabase storage bucket policy is uninitialized
       compressAndSetImage(file);
     }
   };
@@ -89,11 +99,12 @@ export default function ImageUploadInput({
 
         {/* Local File Upload Button */}
         <label className="cursor-pointer bg-[#2B3990] hover:bg-[#1E286C] text-white px-4 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-sm transition-all shrink-0">
-          <Upload className="w-4 h-4" />
-          <span>اختر صورة من جهازك</span>
+          {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+          <span>{uploading ? 'جاري الرفع...' : 'اختر صورة من جهازك'}</span>
           <input
             type="file"
             accept="image/*"
+            disabled={uploading}
             onChange={handleFileChange}
             className="hidden"
           />

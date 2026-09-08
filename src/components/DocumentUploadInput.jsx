@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Upload, FileText, X, ExternalLink, Info, CheckCircle2 } from 'lucide-react';
+import { Upload, FileText, X, ExternalLink, Info, CheckCircle2, Loader2 } from 'lucide-react';
 import { openPdfDocument } from '../utils/openDocument';
+import { uploadFileToSupabase } from '../lib/supabase';
 
 /**
  * DocumentUploadInput Component
  * Allows uploading a local PDF / Document file or providing a direct document URL.
- * Local files are converted to Base64 data URIs so they can be stored and previewed offline.
+ * Automatically uploads to Supabase Storage bucket if configured, or converts to IndexedDB / Base64.
  */
 export default function DocumentUploadInput({
   value,
@@ -16,23 +17,34 @@ export default function DocumentUploadInput({
 }) {
   const [fileName, setFileName] = useState('');
   const [fileSize, setFileSize] = useState('');
+  const [uploading, setUploading] = useState(false);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Calculate human readable file size
     const sizeKB = (file.size / 1024).toFixed(1);
     const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
     const displaySize = file.size > 1024 * 1024 ? `${sizeMB} MB` : `${sizeKB} KB`;
 
     setFileName(file.name);
     setFileSize(displaySize);
+    setUploading(true);
 
+    // 1. Try uploading to Supabase Storage bucket first
+    const supabasePublicUrl = await uploadFileToSupabase(file, 'uploads');
+    if (supabasePublicUrl) {
+      onChange(supabasePublicUrl);
+      setUploading(false);
+      return;
+    }
+
+    // 2. Fallback to local Base64 / IndexedDB storage
     const reader = new FileReader();
     reader.onload = (event) => {
       const base64Data = event.target.result;
       onChange(base64Data);
+      setUploading(false);
     };
     reader.readAsDataURL(file);
   };
@@ -74,11 +86,12 @@ export default function DocumentUploadInput({
 
         {/* Local File Selector Button */}
         <label className="cursor-pointer bg-[#2B3990] hover:bg-[#1E286C] text-white px-5 py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-sm transition-all shrink-0">
-          <Upload className="w-4 h-4" />
-          <span>اختر ملف البروفايل من جهازك</span>
+          {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+          <span>{uploading ? 'جاري رفع الملف...' : 'اختر ملف البروفايل من جهازك'}</span>
           <input
             type="file"
             accept=".pdf,.doc,.docx,application/pdf"
+            disabled={uploading}
             onChange={handleFileChange}
             className="hidden"
           />
