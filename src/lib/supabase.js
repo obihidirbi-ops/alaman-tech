@@ -24,6 +24,7 @@ export const uploadFileToSupabase = async (file, preferredBucket = 'images') => 
 
     for (const b of bucketsToTry) {
       const { data, error } = await supabase.storage.from(b).upload(filePath, file, {
+        contentType: file.type || (fileExt === 'pdf' ? 'application/pdf' : 'image/jpeg'),
         cacheControl: '3600',
         upsert: true
       });
