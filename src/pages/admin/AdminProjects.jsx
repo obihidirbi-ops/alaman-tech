@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useData } from '../../context/DataContext';
 import ImageUploadInput from '../../components/ImageUploadInput';
-import { Plus, Edit2, Trash2, Eye, EyeOff, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Eye, EyeOff, X, CheckCircle2 } from 'lucide-react';
 
 export default function AdminProjects() {
   const { t, lang } = useLanguage();
-  const { projects, saveProject, deleteProject, services } = useData();
+  const { projects, saveProject, deleteProject, services, syncAllProjectsToSupabase } = useData();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
@@ -97,19 +97,34 @@ export default function AdminProjects() {
   return (
     <div className="space-y-6">
       
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-slate-900 font-cairo">{t('manageProjects')}</h1>
           <p className="text-xs text-slate-500">إضافة وتعديل المشاريع ورفع معرض صور متعدد (2 إلى 3 صور لكل مشروع)</p>
         </div>
 
-        <button
-          onClick={() => handleOpenModal()}
-          className="px-4 py-2.5 bg-[#2B3990] hover:bg-[#1E286C] text-white text-xs font-bold rounded-xl shadow flex items-center gap-1.5 transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-          <span>إضافة مشروع جديد</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={async () => {
+              const res = await syncAllProjectsToSupabase();
+              if (res.success) alert('تمت مزامنة ونشر جميع المشاريع في Supabase بنجاح!');
+              else alert('تنبيه أثناء المزامنة: ' + res.message);
+            }}
+            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow flex items-center gap-1.5 transition-colors cursor-pointer"
+            title="مزامنة ونشر المشاريع الحالية في قاعدة بيانات Supabase للزوار"
+          >
+            <CheckCircle2 className="w-4 h-4" />
+            <span>نشر ونشر المشاريع أونلاين</span>
+          </button>
+
+          <button
+            onClick={() => handleOpenModal()}
+            className="px-4 py-2.5 bg-[#2B3990] hover:bg-[#1E286C] text-white text-xs font-bold rounded-xl shadow flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>إضافة مشروع جديد</span>
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">

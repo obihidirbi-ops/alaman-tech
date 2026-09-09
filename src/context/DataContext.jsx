@@ -887,6 +887,19 @@ export const DataProvider = ({ children }) => {
   const openProfileModal = () => setIsProfileModalOpen(true);
   const closeProfileModal = () => setIsProfileModalOpen(false);
 
+  const syncAllProjectsToSupabase = async () => {
+    if (!isSupabaseConfigured || !supabase) return { success: false, message: 'Supabase not configured' };
+    try {
+      for (const p of projects) {
+        const cleanP = { is_published: true, ...p };
+        await supabase.from('projects').upsert(cleanP);
+      }
+      return { success: true };
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  };
+
   return (
     <DataContext.Provider value={{
       services,
@@ -909,7 +922,8 @@ export const DataProvider = ({ children }) => {
       submitInboxMessage,
       updateInboxStatus,
       deleteInboxMessage,
-      updateSettings
+      updateSettings,
+      syncAllProjectsToSupabase
     }}>
       {children}
     </DataContext.Provider>
