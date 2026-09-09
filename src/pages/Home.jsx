@@ -29,12 +29,15 @@ export default function Home() {
 
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
-  const activeServices = services.filter(s => s.is_active);
-  const publishedProjects = projects.filter(p => p.is_published);
+  const activeServices = services.filter(s => s.is_active !== false);
+  const publishedProjects = projects.filter(p => p.is_published !== false);
 
   const filteredProjects = projectFilter === 'all' 
     ? publishedProjects 
-    : publishedProjects.filter(p => p.services_used.some(s => s.includes(projectFilter) || s.toLowerCase().includes(projectFilter.toLowerCase())));
+    : publishedProjects.filter(p => {
+        const list = Array.isArray(p.services_used) ? p.services_used : [];
+        return list.some(s => typeof s === 'string' && (s.includes(projectFilter) || s.toLowerCase().includes(projectFilter.toLowerCase())));
+      });
 
   // Dynamic Hero Slideshow Configuration (Static images, 5-Second Interval)
   const heroSlides = [
@@ -332,7 +335,7 @@ export default function Home() {
                   </p>
 
                   <div className="flex flex-wrap gap-1.5 pt-2">
-                    {proj.services_used.map((tag, idx) => (
+                    {(Array.isArray(proj.services_used) ? proj.services_used : []).map((tag, idx) => (
                       <span key={idx} className="text-[10px] font-semibold bg-slate-700 text-slate-300 px-2 py-0.5 rounded">
                         {tag}
                       </span>
