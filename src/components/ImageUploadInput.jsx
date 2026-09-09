@@ -57,15 +57,67 @@ export default function ImageUploadInput({
 
     setUploading(true);
 
-    // 1. Try uploading to Supabase Storage Bucket first
-    const supabasePublicUrl = await uploadFileToSupabase(file, 'images');
-    if (supabasePublicUrl) {
-      setPreview(supabasePublicUrl);
-      onChange(supabasePublicUrl);
-      setUploading(false);
-    } else {
-      // 2. Fallback to local canvas compressed image if Supabase storage bucket policy is uninitialized
+    try {
+      // 1. Try direct file upload to Supabase Storage
+      let supabasePublicUrl = await uploadFileToSupabase(file, 'images');
+
+      if (!supabasePublicUrl) {
+        // 2. If direct upload failed or file is large, compress via Canvas to a Blob first
+        const compressedBlob = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+              const maxDimension = 1200;
+              let width = img.width;
+              let height = img.height;
+
+              if (width > maxDimension || height > maxDimension) {
+                if (width > height) {
+                  height = Math.round((height * maxDimension) / width);
+                  width = maxDimension;
+                } else {
+                  width = Math.round((width * maxDimension) / height);
+                  height = maxDimension;
+                }
+              }
+
+              const canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, width, height);
+
+              canvas.toBlob((blob) => {
+                if (blob) {
+                  const namedFile = new File([blob], file.name || 'image.jpg', { type: 'image/jpeg' });
+                  resolve(namedFile);
+                } else {
+                  resolve(null);
+                }
+              }, 'image/jpeg', 0.85);
+            };
+            img.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        if (compressedBlob) {
+          supabasePublicUrl = await uploadFileToSupabase(compressedBlob, 'images');
+        }
+      }
+
+      if (supabasePublicUrl) {
+        setPreview(supabasePublicUrl);
+        onChange(supabasePublicUrl);
+      } else {
+        compressAndSetImage(file);
+      }
+    } catch (err) {
+      console.warn('Image upload handle catch:', err);
       compressAndSetImage(file);
+    } finally {
+      setUploading(false);
     }
   };
 
