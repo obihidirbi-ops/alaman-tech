@@ -747,13 +747,14 @@ export const DataProvider = ({ children }) => {
   const saveProject = async (projectData) => {
     let updatedItem;
     if (projectData.id) {
-      updatedItem = { ...projectData };
+      updatedItem = { is_published: true, ...projectData };
       setProjects(prev => prev.map(p => p.id === projectData.id ? updatedItem : p));
     } else {
       updatedItem = {
+        is_published: true,
         ...projectData,
         id: "proj-" + Date.now(),
-        slug: projectData.slug || projectData.title_en.toLowerCase().replace(/\s+/g, '-')
+        slug: projectData.slug || (projectData.title_en ? projectData.title_en.toLowerCase().replace(/\s+/g, '-') : 'proj')
       };
       setProjects(prev => [...prev, updatedItem]);
     }

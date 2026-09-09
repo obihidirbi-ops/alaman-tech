@@ -15,7 +15,7 @@ export default function ProjectsCatalog() {
   // Active image tracker for individual project cards
   const [cardActiveImageMap, setCardActiveImageMap] = useState({});
 
-  const publishedProjects = projects.filter(p => p.is_published);
+  const publishedProjects = projects.filter(p => p.is_published !== false);
 
   const filteredProjects = selectedCategory === 'all'
     ? publishedProjects
@@ -27,8 +27,15 @@ export default function ProjectsCatalog() {
   };
 
   const getGallery = (proj) => {
-    if (proj.gallery_urls && proj.gallery_urls.length > 0) return proj.gallery_urls;
-    return [proj.image_url];
+    let urls = proj.gallery_urls;
+    if (typeof urls === 'string') {
+      try { urls = JSON.parse(urls); } catch { urls = [urls]; }
+    }
+    if (Array.isArray(urls) && urls.length > 0) {
+      const valid = urls.filter(Boolean);
+      if (valid.length > 0) return valid;
+    }
+    return proj.image_url ? [proj.image_url] : [];
   };
 
   return (
@@ -144,7 +151,7 @@ export default function ProjectsCatalog() {
                   </div>
 
                   <div className="flex flex-wrap gap-1.5 pt-2">
-                    {proj.services_used.map((tag, idx) => (
+                    {(Array.isArray(proj.services_used) ? proj.services_used : []).map((tag, idx) => (
                       <span key={idx} className="text-[10px] font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200">
                         {tag}
                       </span>
