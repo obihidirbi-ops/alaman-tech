@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useData } from '../../context/DataContext';
 import ImageUploadInput from '../../components/ImageUploadInput';
-import { Plus, Edit2, Trash2, Eye, EyeOff, X, CheckCircle2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, Eye, EyeOff, X, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function AdminProjects() {
   const { t, lang } = useLanguage();
@@ -82,16 +82,26 @@ export default function AdminProjects() {
     setModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const [saving, setSaving] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const galleryList = [formData.image_url, formData.image_url2, formData.image_url3].filter(Boolean);
-    saveProject({
-      ...formData,
-      image_url: formData.image_url || galleryList[0] || '',
-      gallery_urls: galleryList,
-      services_used: [formData.category_id]
-    });
-    setModalOpen(false);
+    setSaving(true);
+    try {
+      const galleryList = [formData.image_url, formData.image_url2, formData.image_url3].filter(Boolean);
+      await saveProject({
+        ...formData,
+        image_url: formData.image_url || galleryList[0] || '',
+        gallery_urls: galleryList,
+        services_used: [formData.category_id],
+        is_published: true
+      });
+      setModalOpen(false);
+    } catch (err) {
+      console.error('Project save error:', err);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -311,9 +321,17 @@ export default function AdminProjects() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#2B3990] text-white rounded-xl font-bold"
+                  disabled={saving}
+                  className="px-5 py-2 bg-[#2B3990] hover:bg-[#1E286C] text-white rounded-xl font-bold flex items-center gap-2 cursor-pointer disabled:opacity-50"
                 >
-                  حفظ التعديلات
+                  {saving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>جاري حفظ ونشر التعديلات...</span>
+                    </>
+                  ) : (
+                    <span>حفظ التعديلات ونشرها أونلاين</span>
+                  )}
                 </button>
               </div>
             </form>
