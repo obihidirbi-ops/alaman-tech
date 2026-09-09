@@ -760,7 +760,7 @@ export const DataProvider = ({ children }) => {
   };
 
   // Update Settings
-  const updateSettings = (newSettings) => {
+  const updateSettings = async (newSettings) => {
     if (newSettings.company_profile_url) {
       if (newSettings.company_profile_url.startsWith('data:')) {
         savePdfToIndexedDB('company_profile_pdf', newSettings.company_profile_url);
@@ -769,20 +769,24 @@ export const DataProvider = ({ children }) => {
       removePdfFromIndexedDB('company_profile_pdf');
     }
 
-    setSettings(prev => {
-      const updated = { ...prev, ...newSettings };
-      if (isSupabaseConfigured && supabase) {
-        // Strip heavy base64 before sending to Supabase site_settings table if needed
-        const cleanForDb = { ...updated };
-        if (cleanForDb.company_profile_url && cleanForDb.company_profile_url.startsWith('data:')) {
-          cleanForDb.company_profile_url = 'indexeddb:company_profile_pdf';
-        }
-        supabase.from('site_settings').upsert({ id: 'main_settings', ...cleanForDb }).then(({ error }) => {
-          if (error) console.warn('Supabase settings sync warning:', error);
-        });
+    setSettings(prev => ({ ...prev, ...newSettings }));
+
+    if (isSupabaseConfigured && supabase) {
+      const cleanForDb = { ...newSettings };
+      if (cleanForDb.company_profile_url && cleanForDb.company_profile_url.startsWith('data:')) {
+        cleanForDb.company_profile_url = 'indexeddb:company_profile_pdf';
       }
-      return updated;
-    });
+      try {
+        const { error } = await supabase.from('site_settings').upsert({ id: 'main_settings', ...cleanForDb });
+        if (error) {
+          console.warn('Supabase settings DB upsert warning:', error.message);
+        } else {
+          console.log('Successfully synced site_settings to Supabase database!');
+        }
+      } catch (err) {
+        console.warn('Supabase settings DB upsert catch:', err);
+      }
+    }
   };
 
   // Profile PDF Modal State
