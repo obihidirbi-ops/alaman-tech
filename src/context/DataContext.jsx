@@ -578,6 +578,30 @@ export const DataProvider = ({ children }) => {
     });
   }, []);
 
+  // Fetch Live Settings from Supabase DB on initial mount for all visitors
+  useEffect(() => {
+    if (isSupabaseConfigured && supabase) {
+      supabase
+        .from('site_settings')
+        .select('*')
+        .eq('id', 'main_settings')
+        .maybeSingle()
+        .then(({ data, error }) => {
+          if (data && !error) {
+            console.log('Successfully fetched live site settings from Supabase:', data);
+            setSettings(prev => {
+              const merged = { ...prev, ...data };
+              if (data.company_profile_url === 'indexeddb:company_profile_pdf' && prev.company_profile_url && prev.company_profile_url.startsWith('data:')) {
+                merged.company_profile_url = prev.company_profile_url;
+              }
+              return merged;
+            });
+          }
+        })
+        .catch(err => console.warn('Supabase site_settings fetch error:', err));
+    }
+  }, []);
+
   // Save to LocalStorage & SessionStorage on change with try-catch fallback
   useEffect(() => {
     try {
