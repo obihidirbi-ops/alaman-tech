@@ -578,9 +578,10 @@ export const DataProvider = ({ children }) => {
     });
   }, []);
 
-  // Fetch Live Settings from Supabase DB on initial mount for all visitors
+  // Fetch Live Settings, Services, Projects, Clients from Supabase DB on initial mount for all visitors
   useEffect(() => {
     if (isSupabaseConfigured && supabase) {
+      // Fetch Site Settings
       supabase
         .from('site_settings')
         .select('*')
@@ -599,6 +600,41 @@ export const DataProvider = ({ children }) => {
           }
         })
         .catch(err => console.warn('Supabase site_settings fetch error:', err));
+
+      // Fetch Services
+      supabase
+        .from('services')
+        .select('*')
+        .order('sort_order', { ascending: true })
+        .then(({ data, error }) => {
+          if (data && !error && data.length > 0) {
+            setServices(data);
+          }
+        })
+        .catch(err => console.warn('Supabase services fetch error:', err));
+
+      // Fetch Projects
+      supabase
+        .from('projects')
+        .select('*')
+        .order('sort_order', { ascending: true })
+        .then(({ data, error }) => {
+          if (data && !error && data.length > 0) {
+            setProjects(data);
+          }
+        })
+        .catch(err => console.warn('Supabase projects fetch error:', err));
+
+      // Fetch Clients
+      supabase
+        .from('clients')
+        .select('*')
+        .then(({ data, error }) => {
+          if (data && !error && data.length > 0) {
+            setClients(data);
+          }
+        })
+        .catch(err => console.warn('Supabase clients fetch error:', err));
     }
   }, []);
 
@@ -673,53 +709,104 @@ export const DataProvider = ({ children }) => {
   };
 
   // Service CRUD
-  const saveService = (serviceData) => {
+  const saveService = async (serviceData) => {
+    let updatedItem;
     if (serviceData.id) {
-      setServices(prev => prev.map(s => s.id === serviceData.id ? { ...s, ...serviceData } : s));
+      updatedItem = { ...serviceData };
+      setServices(prev => prev.map(s => s.id === serviceData.id ? updatedItem : s));
     } else {
-      const newService = {
+      updatedItem = {
         ...serviceData,
         id: "serv-" + Date.now(),
         slug: serviceData.slug || serviceData.title_en.toLowerCase().replace(/\s+/g, '-')
       };
-      setServices(prev => [...prev, newService]);
+      setServices(prev => [...prev, updatedItem]);
+    }
+
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase.from('services').upsert(updatedItem);
+      } catch (e) {
+        console.warn('Supabase saveService warning:', e);
+      }
     }
   };
 
-  const deleteService = (id) => {
+  const deleteService = async (id) => {
     setServices(prev => prev.filter(s => s.id !== id));
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase.from('services').delete().eq('id', id);
+      } catch (e) {
+        console.warn('Supabase deleteService warning:', e);
+      }
+    }
   };
 
   // Project CRUD
-  const saveProject = (projectData) => {
+  const saveProject = async (projectData) => {
+    let updatedItem;
     if (projectData.id) {
-      setProjects(prev => prev.map(p => p.id === projectData.id ? { ...p, ...projectData } : p));
+      updatedItem = { ...projectData };
+      setProjects(prev => prev.map(p => p.id === projectData.id ? updatedItem : p));
     } else {
-      const newProj = {
+      updatedItem = {
         ...projectData,
         id: "proj-" + Date.now(),
         slug: projectData.slug || projectData.title_en.toLowerCase().replace(/\s+/g, '-')
       };
-      setProjects(prev => [...prev, newProj]);
+      setProjects(prev => [...prev, updatedItem]);
+    }
+
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase.from('projects').upsert(updatedItem);
+      } catch (e) {
+        console.warn('Supabase saveProject warning:', e);
+      }
     }
   };
 
-  const deleteProject = (id) => {
+  const deleteProject = async (id) => {
     setProjects(prev => prev.filter(p => p.id !== id));
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase.from('projects').delete().eq('id', id);
+      } catch (e) {
+        console.warn('Supabase deleteProject warning:', e);
+      }
+    }
   };
 
   // Client CRUD
-  const saveClient = (clientData) => {
+  const saveClient = async (clientData) => {
+    let updatedItem;
     if (clientData.id) {
-      setClients(prev => prev.map(c => c.id === clientData.id ? { ...c, ...clientData } : c));
+      updatedItem = { ...clientData };
+      setClients(prev => prev.map(c => c.id === clientData.id ? updatedItem : c));
     } else {
-      const newClient = { ...clientData, id: "c-" + Date.now() };
-      setClients(prev => [...prev, newClient]);
+      updatedItem = { ...clientData, id: "c-" + Date.now() };
+      setClients(prev => [...prev, updatedItem]);
+    }
+
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase.from('clients').upsert(updatedItem);
+      } catch (e) {
+        console.warn('Supabase saveClient warning:', e);
+      }
     }
   };
 
-  const deleteClient = (id) => {
+  const deleteClient = async (id) => {
     setClients(prev => prev.filter(c => c.id !== id));
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase.from('clients').delete().eq('id', id);
+      } catch (e) {
+        console.warn('Supabase deleteClient warning:', e);
+      }
+    }
   };
 
   // Inbox Submission
