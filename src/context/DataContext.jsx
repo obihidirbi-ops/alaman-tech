@@ -760,9 +760,14 @@ export const DataProvider = ({ children }) => {
 
     if (isSupabaseConfigured && supabase) {
       try {
-        await supabase.from('projects').upsert(updatedItem);
+        const { error } = await supabase.from('projects').upsert(updatedItem);
+        if (error) {
+          console.warn('Supabase saveProject DB error:', error.message);
+        } else {
+          console.log('Successfully saved project to Supabase DB:', updatedItem.id);
+        }
       } catch (e) {
-        console.warn('Supabase saveProject warning:', e);
+        console.warn('Supabase saveProject exception:', e);
       }
     }
   };
