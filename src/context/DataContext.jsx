@@ -761,7 +761,8 @@ export const DataProvider = ({ children }) => {
 
     if (isSupabaseConfigured && supabase) {
       try {
-        const { error } = await supabase.from('projects').upsert(updatedItem);
+        const { image_url2, image_url3, ...cleanForDb } = updatedItem;
+        const { error } = await supabase.from('projects').upsert(cleanForDb);
         if (error) {
           console.warn('Supabase saveProject DB error:', error.message);
         } else {
@@ -891,8 +892,10 @@ export const DataProvider = ({ children }) => {
     if (!isSupabaseConfigured || !supabase) return { success: false, message: 'Supabase not configured' };
     try {
       for (const p of projects) {
-        const cleanP = { is_published: true, ...p };
-        await supabase.from('projects').upsert(cleanP);
+        const { image_url2, image_url3, ...cleanP } = p;
+        cleanP.is_published = true;
+        const { error } = await supabase.from('projects').upsert(cleanP);
+        if (error) console.warn('Sync project error:', p.id, error.message);
       }
       return { success: true };
     } catch (err) {
