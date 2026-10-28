@@ -46,6 +46,21 @@ export const translations = {
     statClients: "عميلاً وشركة",
     statServices: "قطاع خدمة متكامل",
 
+    // Manpower & Org Structure
+    manpowerBadge: "القوى العاملة والكوادر الفنية",
+    manpowerTitle: "الكوادر البشرية والفرق الفنية المتخصصة",
+    manpowerSubtitle: "فريق هندسي وفني متكامل مؤهل ومدرب وفق أعلى معايير السلامة المهنية ومواصفات الدفاع المدني السعودي.",
+    engineersCount: "مهندسون استشاريون وتخصصيون",
+    techniciansCount: "فنيو تركيب وصيانة معتمدون",
+    workersCount: "عمالة مهنية متخصصة ومدربة",
+    supervisorsCount: "مشرفو سلامة وضباط جودة ميدانية",
+    totalManpower: "إجمالي القوى العاملة",
+    orgChartBadge: "الحوكمة والإدارة",
+    orgChartTitle: "الهيكل التنظيمي والإداري للشركة",
+    orgChartSubtitle: "هيكل إداري متطور ومرن يضمن سلاسة اتخاذ القرار وسرعة تنفيذ المشاريع بأعلى معايير الحوكمة والجودة.",
+    viewOrgChart: "عرض وتكبير المخطط",
+    downloadOrgChart: "تحميل مخطط الهيكل",
+
     // Services Page & Grid
     servicesBadge: "خدماتنا المتميزة",
     servicesTitle: "حلول شاملة ومتكاملة وفق أعلى المعايير",
@@ -171,6 +186,21 @@ export const translations = {
     statProjects: "Projects Delivered",
     statClients: "Trusted Corporate Clients",
     statServices: "Specialized Service Sectors",
+
+    // Manpower & Org Structure
+    manpowerBadge: "Human Capital & Manpower",
+    manpowerTitle: "Specialized Engineering & Technical Workforce",
+    manpowerSubtitle: "An integrated technical & engineering team certified to Saudi Civil Defense and OSHA standards.",
+    engineersCount: "Certified & Consultant Engineers",
+    techniciansCount: "Specialized Technical Crew",
+    workersCount: "Skilled & Trained Workforce",
+    supervisorsCount: "Site Supervisors & Safety Officers",
+    totalManpower: "Total Manpower",
+    orgChartBadge: "Governance & Leadership",
+    orgChartTitle: "Company Organizational Structure",
+    orgChartSubtitle: "An agile, modern corporate hierarchy ensuring prompt decision-making and seamless project execution.",
+    viewOrgChart: "View Fullscreen Chart",
+    downloadOrgChart: "Download Structure",
 
     // Services Page & Grid
     servicesBadge: "Our Specialized Services",

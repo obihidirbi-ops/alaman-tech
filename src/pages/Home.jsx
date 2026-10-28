@@ -18,7 +18,9 @@ import {
   Filter,
   ChevronRight,
   ChevronLeft,
-  FileText
+  FileText,
+  HardHat,
+  Network
 } from 'lucide-react';
 
 export default function Home() {
@@ -376,7 +378,7 @@ export default function Home() {
           </div>
 
           {/* Live Statistic Counters */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
               <div className="text-3xl sm:text-4xl font-black text-[#E31E24] font-cairo mb-1">
                 +{settings.stat_clients || 250}
@@ -395,12 +397,21 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 col-span-2 md:col-span-1">
-              <div className="text-3xl sm:text-4xl font-black text-[#E31E24] font-cairo mb-1">
-                12
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+              <div className="text-3xl sm:text-4xl font-black text-emerald-600 font-cairo mb-1">
+                +{((Number(settings.stat_engineers) || 25) + (Number(settings.stat_technicians) || 60) + (Number(settings.stat_workers) || 120) + (Number(settings.stat_supervisors) || 18))}
               </div>
               <div className="text-xs font-bold text-slate-700">
-                {lang === 'ar' ? 'فريق فني تخصصي' : 'Specialized Tech Teams'}
+                {lang === 'ar' ? 'مهندس وفني وعامل' : 'Manpower & Tech Crew'}
+              </div>
+            </div>
+
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+              <div className="text-3xl sm:text-4xl font-black text-amber-500 font-cairo mb-1">
+                +{settings.stat_years || 12}
+              </div>
+              <div className="text-xs font-bold text-slate-700">
+                {lang === 'ar' ? 'سنوات خبرة معتمدة' : 'Years of Experience'}
               </div>
             </div>
           </div>
@@ -441,6 +452,41 @@ export default function Home() {
                   {lang === 'ar' ? 'اعتمادات الدفاع المدني للسلامة' : 'Civil Defense Safety Approvals'}
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Manpower & Org Structure Spotlight Ribbon */}
+          <div className="p-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-2xl text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md border border-slate-700">
+            <div className="space-y-1.5 text-center md:text-start">
+              <div className="inline-flex items-center gap-1.5 text-red-400 text-xs font-bold">
+                <HardHat className="w-4 h-4" />
+                <span>{lang === 'ar' ? 'الكوادر الفنية والهيكل الإداري للشركة' : 'Certified Manpower & Corporate Governance'}</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold font-cairo text-white">
+                {lang === 'ar' ? 'فريق عمل متكامل وهيكل تنظيمي مرن وموثوق' : 'Integrated Workforce & Streamlined Organizational Structure'}
+              </h3>
+              <p className="text-slate-300 text-xs max-w-xl">
+                {lang === 'ar'
+                  ? 'تعرف على تفاصيل توزيع القوى العاملة (مهندسين، فنيين، عمال، مشرفي سلامة) واستعرض الهيكل التنظيمي المعتمد للشركة.'
+                  : 'Explore our workforce breakdown across engineering, technical and field crew along with our corporate organizational chart.'}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <Link
+                to="/about#manpower"
+                className="px-4 py-2.5 bg-[#E31E24] hover:bg-[#C41419] text-white text-xs font-bold rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5"
+              >
+                <Users className="w-4 h-4" />
+                <span>{lang === 'ar' ? 'استعراض القوى العاملة' : 'View Manpower'}</span>
+              </Link>
+              <Link
+                to="/about#org-chart"
+                className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-slate-600 transition-all active:scale-95 flex items-center gap-1.5"
+              >
+                <Network className="w-4 h-4" />
+                <span>{lang === 'ar' ? 'الهيكل التنظيمي' : 'Org Structure'}</span>
+              </Link>
             </div>
           </div>
 

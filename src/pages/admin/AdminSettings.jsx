@@ -52,10 +52,37 @@ export default function AdminSettings() {
         </div>
       </div>
 
+      {/* Quick Navigation Anchor Bar */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+        <a href="#sec-brand" className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl border border-slate-200 shrink-0 transition-colors">
+          الشعار والبروفايل
+        </a>
+        <a href="#sec-contact" className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl border border-slate-200 shrink-0 transition-colors">
+          معلومات التواصل
+        </a>
+        <a href="#sec-stats" className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl border border-slate-200 shrink-0 transition-colors">
+          العدادات العامة
+        </a>
+        <a href="#sec-hero" className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl border border-slate-200 shrink-0 transition-colors">
+          الواجهة الرئيسية
+        </a>
+        <a href="#sec-about" className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl border border-slate-200 shrink-0 transition-colors">
+          صفحة من نحن
+        </a>
+        <a href="#sec-manpower" className="px-3.5 py-1.5 bg-red-50 hover:bg-red-100 text-[#E31E24] font-bold rounded-xl border border-red-200 shrink-0 transition-colors flex items-center gap-1 shadow-sm">
+          <span>👷‍♂️</span>
+          <span>القوى العاملة (Manpower)</span>
+        </a>
+        <a href="#sec-org" className="px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#2B3990] font-bold rounded-xl border border-blue-200 shrink-0 transition-colors flex items-center gap-1 shadow-sm">
+          <span>🏢</span>
+          <span>الهيكل التنظيمي (Org Structure)</span>
+        </a>
+      </div>
+
       <form onSubmit={handleSave} className="space-y-6 text-xs">
         
         {/* Section 0: Custom Logo Upload */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div id="sec-brand" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h3 className="text-base font-bold text-slate-900 font-cairo border-b pb-2 border-slate-100">
             شعار الشركة (رفع صورة من جهازك)
           </h3>
@@ -84,7 +111,7 @@ export default function AdminSettings() {
         </div>
 
         {/* Section 1: Contact Information */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div id="sec-contact" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h3 className="text-base font-bold text-slate-900 font-cairo border-b pb-2 border-slate-100">
             معلومات التواصل والرابط المباشر
           </h3>
@@ -153,7 +180,7 @@ export default function AdminSettings() {
         </div>
 
         {/* Section 2: Stats Counter Settings */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div id="sec-stats" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h3 className="text-base font-bold text-slate-900 font-cairo border-b pb-2 border-slate-100">
             العدادات الإحصائية في الصفحة الرئيسية
           </h3>
@@ -206,7 +233,7 @@ export default function AdminSettings() {
         </div>
 
         {/* Section 3: Hero Section & Slideshow Settings */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div id="sec-hero" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h3 className="text-base font-bold text-slate-900 font-cairo border-b pb-2 border-slate-100 flex items-center justify-between">
             <span>صور ونصوص الواجهة الرئيسية (Hero Slideshow)</span>
             <span className="text-xs font-normal text-[#E31E24]">تتغير الصور أوتوماتيكياً كل 5 ثوانٍ</span>
@@ -268,7 +295,7 @@ export default function AdminSettings() {
         </div>
 
         {/* Section 4: About Us Page Settings */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div id="sec-about" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h3 className="text-base font-bold text-slate-900 font-cairo border-b pb-2 border-slate-100">
             صورة ونصوص صفحة من نحن (About Us)
           </h3>
@@ -312,6 +339,211 @@ export default function AdminSettings() {
                   className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
                 ></textarea>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 5: Manpower Settings (القوى العاملة والكوادر الفنية) */}
+        <div id="sec-manpower" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 border-slate-100 gap-2">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 font-cairo flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#E31E24]"></span>
+                <span>سيكشن القوى العاملة والكوادر الفنية (Manpower)</span>
+              </h3>
+              <p className="text-xs text-slate-500">تحكم بعدد المهندسين، الفنيين، العمال، ومشرفي السلامة التي تظهر بالموقع</p>
+            </div>
+            <div className="bg-red-50 text-[#E31E24] text-[11px] font-bold px-3 py-1 rounded-full self-start sm:self-auto border border-red-200">
+              إجمالي القوى العاملة: +{(Number(formData.stat_engineers) || 0) + (Number(formData.stat_technicians) || 0) + (Number(formData.stat_workers) || 0) + (Number(formData.stat_supervisors) || 0)} كادر
+            </div>
+          </div>
+
+          {/* Numbers Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-800 flex items-center gap-1.5">
+                <span>👷‍♂️ عدد المهندسين</span>
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                min="0"
+                required
+                value={formData.stat_engineers ?? 25}
+                onChange={(e) => setFormData({ ...formData, stat_engineers: Number(e.target.value) })}
+                className="w-full bg-white border border-slate-200 p-2.5 rounded-xl text-xs font-bold text-[#2B3990]"
+              />
+              <span className="text-[10px] text-slate-500 block">مهندسون استشاريون وتخصصيون</span>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-800 flex items-center gap-1.5">
+                <span>🔧 عدد الفنيين</span>
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                min="0"
+                required
+                value={formData.stat_technicians ?? 60}
+                onChange={(e) => setFormData({ ...formData, stat_technicians: Number(e.target.value) })}
+                className="w-full bg-white border border-slate-200 p-2.5 rounded-xl text-xs font-bold text-[#E31E24]"
+              />
+              <span className="text-[10px] text-slate-500 block">فنيو إطفاء وإنذار وشبكات معتمدون</span>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-800 flex items-center gap-1.5">
+                <span>🔨 عدد العمال</span>
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                min="0"
+                required
+                value={formData.stat_workers ?? 120}
+                onChange={(e) => setFormData({ ...formData, stat_workers: Number(e.target.value) })}
+                className="w-full bg-white border border-slate-200 p-2.5 rounded-xl text-xs font-bold text-emerald-600"
+              />
+              <span className="text-[10px] text-slate-500 block">عمالة ماهرة ومدربة على السلامة</span>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-800 flex items-center gap-1.5">
+                <span>🛡️ مشرفو سلامة وجودة</span>
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                min="0"
+                required
+                value={formData.stat_supervisors ?? 18}
+                onChange={(e) => setFormData({ ...formData, stat_supervisors: Number(e.target.value) })}
+                className="w-full bg-white border border-slate-200 p-2.5 rounded-xl text-xs font-bold text-amber-600"
+              />
+              <span className="text-[10px] text-slate-500 block">ضباط سلامة معتمدون OSHA</span>
+            </div>
+          </div>
+
+          {/* Titles & Description */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">عنوان سيكشن القوى العاملة (عربي)</label>
+              <input
+                type="text"
+                value={formData.manpower_title_ar || ''}
+                onChange={(e) => setFormData({ ...formData, manpower_title_ar: e.target.value })}
+                placeholder="الكوادر البشرية والفرق الفنية المتخصصة"
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">عنوان السيكشن (إنجليزي)</label>
+              <input
+                type="text"
+                value={formData.manpower_title_en || ''}
+                onChange={(e) => setFormData({ ...formData, manpower_title_en: e.target.value })}
+                placeholder="Specialized Technical & Engineering Manpower"
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">وصف الكوادر والخبرة (عربي)</label>
+              <textarea
+                rows={2}
+                value={formData.manpower_desc_ar || ''}
+                onChange={(e) => setFormData({ ...formData, manpower_desc_ar: e.target.value })}
+                placeholder="نبذة عن خبرة وتأهيل الفرق الهندسية والفنية..."
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              ></textarea>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">وصف الكوادر والخبرة (إنجليزي)</label>
+              <textarea
+                rows={2}
+                value={formData.manpower_desc_en || ''}
+                onChange={(e) => setFormData({ ...formData, manpower_desc_en: e.target.value })}
+                placeholder="Brief description of the certified engineering crew..."
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 6: Organizational Structure Settings (الهيكل التنظيمي) */}
+        <div id="sec-org" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 border-slate-100 gap-2">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 font-cairo flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2B3990]"></span>
+                <span>سيكشن الهيكل التنظيمي (Organizational Structure)</span>
+              </h3>
+              <p className="text-xs text-slate-500">رفع صورة مخطط الهيكل التنظيمي للشركة أو تعديل نصوص الشجرة الهرمية</p>
+            </div>
+            <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1 rounded-full self-start sm:self-auto">
+              يدعم رفع صورة للمخطط + شجرة هرمية تفاعلية
+            </span>
+          </div>
+
+          {/* Org Chart Image Upload */}
+          <ImageUploadInput
+            label="رفع صورة أو مخطط الهيكل التنظيمي (اختياري - يعرض بملء الشاشة مع تكبير)"
+            recommendedSize="1920 × 1080 px أو مخطط هرمي بصيغة JPG/PNG عالية الدقة"
+            value={formData.org_chart_image_url || ''}
+            onChange={(newUrl) => setFormData({ ...formData, org_chart_image_url: newUrl })}
+          />
+
+          {/* Titles & Description */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">عنوان الهيكل التنظيمي (عربي)</label>
+              <input
+                type="text"
+                value={formData.org_chart_title_ar || ''}
+                onChange={(e) => setFormData({ ...formData, org_chart_title_ar: e.target.value })}
+                placeholder="الهيكل التنظيمي والإداري للشركة"
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">عنوان الهيكل التنظيمي (إنجليزي)</label>
+              <input
+                type="text"
+                value={formData.org_chart_title_en || ''}
+                onChange={(e) => setFormData({ ...formData, org_chart_title_en: e.target.value })}
+                placeholder="Company Organizational Structure"
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">وصف الهيكل التنظيمي والحوكمة (عربي)</label>
+              <textarea
+                rows={2}
+                value={formData.org_chart_desc_ar || ''}
+                onChange={(e) => setFormData({ ...formData, org_chart_desc_ar: e.target.value })}
+                placeholder="وصف آلية اتخاذ القرار وتوزيع الإدارات والمسؤوليات..."
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              ></textarea>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">وصف الهيكل التنظيمي والحوكمة (إنجليزي)</label>
+              <textarea
+                rows={2}
+                value={formData.org_chart_desc_en || ''}
+                onChange={(e) => setFormData({ ...formData, org_chart_desc_en: e.target.value })}
+                placeholder="Description of the organizational hierarchy and departments..."
+                className="w-full bg-slate-50 border p-2.5 rounded-xl text-xs"
+              ></textarea>
             </div>
           </div>
         </div>
