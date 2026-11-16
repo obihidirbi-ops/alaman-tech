@@ -17,7 +17,7 @@ export default function Footer() {
           
           {/* Column 1: Company Profile & Social Links */}
           <div className="space-y-5">
-            <Logo showText={true} variant="white" className="h-12" />
+            <Logo showText={true} variant="white" />
             <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
               {lang === 'ar' ? settings.about_text_ar : settings.about_text_en}
             </p>

@@ -46,7 +46,7 @@ export default function AdminDashboardLayout() {
       {/* Top Header */}
       <header className="bg-slate-900 text-white py-3.5 px-4 sm:px-8 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Logo showText={true} variant="white" className="h-10" />
+          <Logo showText={true} variant="white" />
           <span className="bg-[#E31E24] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider hidden sm:inline-block">
             CMS Admin Panel
           </span>

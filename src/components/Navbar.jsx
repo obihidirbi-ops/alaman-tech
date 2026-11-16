@@ -39,11 +39,11 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-20 sm:min-h-[86px] py-2 flex items-center justify-between gap-4">
         
         {/* Right Side: Official Brand Logo */}
-        <Link to="/" className="flex items-center gap-2 shrink-0">
-          <Logo className="h-12" />
+        <Link to="/" className="flex items-center gap-2 shrink-0 py-1">
+          <Logo />
         </Link>
 
         {/* Center: Clean Navigation Links */}
