@@ -32,6 +32,10 @@ export default function About() {
     ? settings.about_image_url 
     : "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=1200&q=80";
 
+  const orgChartImg = (settings && settings.org_chart_image_url && settings.org_chart_image_url.trim() !== '')
+    ? settings.org_chart_image_url
+    : '/organizational_chart.jpg';
+
   return (
     <div className="space-y-16 py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
@@ -365,36 +369,36 @@ export default function About() {
             </p>
           </div>
 
-          {/* If Custom Org Chart Image is Uploaded from Admin */}
-          {settings.org_chart_image_url && settings.org_chart_image_url.trim() !== '' && (
+          {/* Organizational Chart Image Display */}
+          {orgChartImg && (
             <div className="space-y-3">
-              <div className="relative rounded-3xl overflow-hidden border-2 border-slate-200 bg-slate-900 group shadow-lg">
+              <div className="relative rounded-3xl overflow-hidden border-2 border-slate-200 bg-white group shadow-sm hover:shadow-md transition-all">
                 <img
-                  src={settings.org_chart_image_url}
-                  alt="الهيكل التنظيمي - شركة تقنية الأمان الأولى"
-                  className="w-full max-h-[500px] object-contain p-2 bg-slate-950/80 cursor-pointer"
+                  src={orgChartImg}
+                  alt={lang === 'ar' ? 'الهيكل التنظيمي - شركة تقنية الأمان الأولى' : 'Organizational Chart - Al-Aman Al-Awal'}
+                  className="w-full max-h-[560px] object-contain p-2 sm:p-4 bg-white cursor-pointer transition-transform duration-300 group-hover:scale-[1.01]"
                   onClick={() => setOrgChartModalOpen(true)}
                 />
 
                 {/* Hover overlay with fullscreen button */}
-                <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 pointer-events-none">
+                <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 pointer-events-none">
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setOrgChartModalOpen(true);
                     }}
-                    className="pointer-events-auto px-5 py-2.5 bg-white text-slate-900 font-bold text-xs rounded-xl shadow-xl flex items-center gap-2 hover:bg-[#E31E24] hover:text-white transition-colors"
+                    className="pointer-events-auto px-5 py-2.5 bg-[#2B3990] text-white font-bold text-xs rounded-xl shadow-xl flex items-center gap-2 hover:bg-[#E31E24] transition-colors cursor-pointer"
                   >
                     <Maximize2 className="w-4 h-4" />
                     <span>{t('viewOrgChart')}</span>
                   </button>
 
                   <a
-                    href={settings.org_chart_image_url}
+                    href={orgChartImg}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto px-4 py-2.5 bg-slate-900/90 text-white font-bold text-xs rounded-xl shadow-xl flex items-center gap-1.5 hover:bg-slate-800 transition-colors"
+                    className="pointer-events-auto px-4 py-2.5 bg-white text-slate-800 font-bold text-xs rounded-xl shadow-xl flex items-center gap-1.5 hover:bg-slate-100 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
                     <span>{t('downloadOrgChart')}</span>
@@ -407,7 +411,7 @@ export default function About() {
                 <button
                   type="button"
                   onClick={() => setOrgChartModalOpen(true)}
-                  className="text-[#2B3990] hover:text-[#E31E24] font-bold flex items-center gap-1 transition-colors"
+                  className="text-[#2B3990] hover:text-[#E31E24] font-bold flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <Maximize2 className="w-3.5 h-3.5" />
                   <span>{t('viewOrgChart')}</span>
@@ -593,9 +597,15 @@ export default function About() {
       </section>
 
       {/* LIGHTBOX MODAL FOR ORGANIZATIONAL CHART */}
-      {orgChartModalOpen && settings.org_chart_image_url && (
-        <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="relative max-w-5xl w-full bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col max-h-[92vh]">
+      {orgChartModalOpen && orgChartImg && (
+        <div 
+          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
+          onClick={() => setOrgChartModalOpen(false)}
+        >
+          <div 
+            className="relative max-w-5xl w-full bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col max-h-[92vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
             
             {/* Modal Header */}
             <div className="p-4 sm:p-5 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-white">
@@ -617,7 +627,7 @@ export default function About() {
 
               <div className="flex items-center gap-2">
                 <a
-                  href={settings.org_chart_image_url}
+                  href={orgChartImg}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-lg flex items-center gap-1 transition-colors"
@@ -636,11 +646,11 @@ export default function About() {
             </div>
 
             {/* Modal Image Body */}
-            <div className="p-4 overflow-auto flex items-center justify-center bg-black/60 flex-1">
+            <div className="p-3 sm:p-5 overflow-auto flex items-center justify-center bg-white/95 flex-1">
               <img
-                src={settings.org_chart_image_url}
+                src={orgChartImg}
                 alt="الهيكل التنظيمي"
-                className="max-h-[75vh] w-auto max-w-full object-contain rounded-xl shadow-lg"
+                className="max-h-[75vh] w-auto max-w-full object-contain rounded-xl shadow-md"
               />
             </div>
           </div>

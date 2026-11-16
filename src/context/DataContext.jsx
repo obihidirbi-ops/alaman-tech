@@ -483,7 +483,7 @@ const INITIAL_SETTINGS = {
   manpower_desc_ar: "تضم شركة تقنية الأمان الأولى نخبة رائدة من المهندسين الاستشاريين والفنيين المؤهلين والعمالة المهنية المدربة وفق أعلى معايير السلامة المهنية ومواصفات الدفاع المدني السعودي لتنفيذ وإدارة أضخم المشاريع.",
   manpower_desc_en: "Al-Aman Al-Awal features a premier team of certified engineers, licensed technicians, and skilled workforce compliant with Saudi Civil Defense and OSHA standards.",
   // Organizational Structure Settings (controlled from Admin)
-  org_chart_image_url: "",
+  org_chart_image_url: "/organizational_chart.jpg",
   org_chart_title_ar: "الهيكل التنظيمي والإداري للشركة",
   org_chart_title_en: "Company Organizational Structure",
   org_chart_desc_ar: "يعكس الهيكل التنظيمي لشركة تقنية الأمان الأولى نموذجاً إدارياً متكاملاً يتسم بالمرونة والسرعة في اتخاذ القرار وتوزيع المسؤوليات لضمان تسليم المشاريع وفق أعلى معايير الجودة والحوكمة المؤسسية.",
@@ -563,7 +563,14 @@ export const DataProvider = ({ children }) => {
   const [settings, setSettings] = useState(() => {
     try {
       const saved = localStorage.getItem('alaman_settings_v6') || sessionStorage.getItem('alaman_settings_v6') || localStorage.getItem('alaman_settings_v5');
-      return saved ? { ...INITIAL_SETTINGS, ...JSON.parse(saved) } : INITIAL_SETTINGS;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (!parsed.org_chart_image_url || parsed.org_chart_image_url.trim() === '') {
+          parsed.org_chart_image_url = '/organizational_chart.jpg';
+        }
+        return { ...INITIAL_SETTINGS, ...parsed };
+      }
+      return INITIAL_SETTINGS;
     } catch {
       return INITIAL_SETTINGS;
     }
@@ -609,6 +616,9 @@ export const DataProvider = ({ children }) => {
               const merged = { ...prev, ...data };
               if (data.company_profile_url === 'indexeddb:company_profile_pdf' && prev.company_profile_url && prev.company_profile_url.startsWith('data:')) {
                 merged.company_profile_url = prev.company_profile_url;
+              }
+              if (!merged.org_chart_image_url || merged.org_chart_image_url.trim() === '') {
+                merged.org_chart_image_url = '/organizational_chart.jpg';
               }
               return merged;
             });
