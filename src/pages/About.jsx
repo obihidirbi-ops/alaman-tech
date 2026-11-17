@@ -20,13 +20,18 @@ import {
   X,
   ExternalLink,
   Layers,
-  ArrowUpRight
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+  BadgeCheck
 } from 'lucide-react';
 
 export default function About() {
   const { t, lang } = useLanguage();
-  const { settings } = useData();
+  const { settings, certificates } = useData();
   const [orgChartModalOpen, setOrgChartModalOpen] = useState(false);
+  const [activeCertCategory, setActiveCertCategory] = useState('all');
+  const [selectedCertIndex, setSelectedCertIndex] = useState(null);
 
   const aboutImgSrc = (settings && settings.about_image_url && settings.about_image_url.trim() !== '') 
     ? settings.about_image_url 
@@ -35,6 +40,51 @@ export default function About() {
   const orgChartImg = (settings && settings.org_chart_image_url && settings.org_chart_image_url.trim() !== '')
     ? settings.org_chart_image_url
     : '/organizational_chart.jpg';
+
+  const currentCert = (selectedCertIndex !== null && certificates && certificates[selectedCertIndex]) 
+    ? certificates[selectedCertIndex] 
+    : null;
+
+  const handlePrevCert = () => {
+    if (selectedCertIndex !== null && certificates && certificates.length > 0) {
+      setSelectedCertIndex((selectedCertIndex - 1 + certificates.length) % certificates.length);
+    }
+  };
+
+  const handleNextCert = () => {
+    if (selectedCertIndex !== null && certificates && certificates.length > 0) {
+      setSelectedCertIndex((selectedCertIndex + 1) % certificates.length);
+    }
+  };
+
+  const certCategories = [
+    { id: 'all', label_ar: 'جميع الوثائق والاعتمادات', label_en: 'All Documents', count: certificates?.length || 15 },
+    { id: 'security_defense', label_ar: 'الأمن الصناعي والدفاع المدني', label_en: 'Industrial Security & Defense', count: (certificates || []).filter(c => c.category === 'security_defense').length },
+    { id: 'iso', label_ar: 'شهادات الآيزو (ISO)', label_en: 'ISO Certifications', count: (certificates || []).filter(c => c.category === 'iso').length },
+    { id: 'corporate_authorities', label_ar: 'أرامكو وهيئة المقاولين', label_en: 'Aramco & SCA', count: (certificates || []).filter(c => c.category === 'corporate_authorities').length },
+    { id: 'commercial_licenses', label_ar: 'التراخيص والسجلات', label_en: 'Commercial Licenses', count: (certificates || []).filter(c => c.category === 'commercial_licenses').length },
+  ];
+
+  const filteredCertificates = activeCertCategory === 'all'
+    ? (certificates || [])
+    : (certificates || []).filter(c => c.category === activeCertCategory);
+
+  const getBadgeStyle = (color) => {
+    switch (color) {
+      case 'red':
+        return 'bg-red-50 text-red-700 border-red-200';
+      case 'blue':
+        return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'emerald':
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case 'purple':
+        return 'bg-purple-50 text-purple-700 border-purple-200';
+      case 'amber':
+        return 'bg-amber-50 text-amber-700 border-amber-200';
+      default:
+        return 'bg-slate-50 text-slate-700 border-slate-200';
+    }
+  };
 
   return (
     <div className="space-y-16 py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -657,15 +707,206 @@ export default function About() {
         </div>
       )}
 
-      {/* 6️⃣ SIXTH SECTION: Company Profile Download CTA Banner */}
+      {/* 6️⃣ SIXTH SECTION: ACCREDITATIONS & TECHNICAL CERTIFICATES (الاعتمادات والتراخيص والشهادات الرسمية) */}
+      <section id="accreditations" className="scroll-mt-24 space-y-8">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-sm space-y-8">
+          
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E31E24] uppercase tracking-wider bg-red-50 border border-red-200 px-3.5 py-1 rounded-md">
+              <Award className="w-3.5 h-3.5" />
+              <span>{lang === 'ar' ? 'الاعتمادات والتراخيص الرسمية' : 'Official Accreditations & Licenses'}</span>
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 font-cairo">
+              {lang === 'ar' ? 'شهادات الجودة والتراخيص والاعتمادات الرسمية' : 'Accreditations, Certifications & Government Licenses'}
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {lang === 'ar'
+                ? 'تعتز شركة تقنية الأمان الأولى بحصولها على نخبة من أرفع التراخيص والاعتمادات الصادرة من الهيئة العليا للأمن الصناعي، المديرية العامة للدفاع المدني، تأهيل أرامكو السعودية، شهادات الآيزو العالمية (ISO 9001, ISO 14001, ISO 45001)، وعضوية الهيئة السعودية للمقاولين.'
+                : 'Al-Aman Al-Awal takes pride in holding premier accreditations from HCIS, Civil Defense, Saudi Aramco, ISO Standards, and the Saudi Contractors Authority.'}
+            </p>
+          </div>
+
+          {/* Quick Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center">
+              <div className="text-2xl font-black text-[#E31E24] font-cairo">HCIS</div>
+              <div className="text-[11px] font-bold text-slate-600 mt-1">
+                {lang === 'ar' ? 'معتمد للأمن الصناعي' : 'HCIS Accredited'}
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center">
+              <div className="text-2xl font-black text-[#2B3990] font-cairo">ISO 9001</div>
+              <div className="text-[11px] font-bold text-slate-600 mt-1">
+                {lang === 'ar' ? 'جودة وسلامة وبيئة' : 'Quality, Safety & Env'}
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center">
+              <div className="text-2xl font-black text-emerald-600 font-cairo">أرامكو</div>
+              <div className="text-[11px] font-bold text-slate-600 mt-1">
+                {lang === 'ar' ? 'مورد معتمد #10115978' : 'Approved Vendor'}
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center">
+              <div className="text-2xl font-black text-amber-600 font-cairo">سلامة</div>
+              <div className="text-[11px] font-bold text-slate-600 mt-1">
+                {lang === 'ar' ? 'ترخيص الدفاع المدني' : 'Civil Defense Licensed'}
+              </div>
+            </div>
+          </div>
+
+          {/* Category Tabs */}
+          <div className="flex flex-wrap items-center justify-center gap-2 border-b border-slate-200 pb-4">
+            {certCategories.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setActiveCertCategory(cat.id)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                  activeCertCategory === cat.id
+                    ? 'bg-[#2B3990] text-white shadow-md'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                <span>{lang === 'ar' ? cat.label_ar : cat.label_en}</span>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                  activeCertCategory === cat.id ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {cat.count}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Certificates Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredCertificates.map((cert) => {
+              const originalIndex = (certificates || []).findIndex(c => c.id === cert.id);
+              return (
+                <div
+                  key={cert.id}
+                  className="bg-white rounded-2xl border-2 border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col group"
+                >
+                  {/* Document Thumbnail Preview */}
+                  <div
+                    className="relative h-60 bg-slate-50 overflow-hidden cursor-pointer flex items-center justify-center p-3 border-b border-slate-200/80"
+                    onClick={() => setSelectedCertIndex(originalIndex >= 0 ? originalIndex : 0)}
+                  >
+                    <img
+                      src={cert.image_url}
+                      alt={lang === 'ar' ? cert.title_ar : cert.title_en}
+                      className="max-h-full max-w-full object-contain rounded-lg shadow-sm transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+
+                    {/* Badge on Top */}
+                    <div className="absolute top-3 start-3">
+                      <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-1 rounded-md border shadow-sm ${getBadgeStyle(cert.badge_color)}`}>
+                        <FileCheck2 className="w-3 h-3" />
+                        <span>{lang === 'ar' ? cert.badge_ar : cert.badge_en}</span>
+                      </span>
+                    </div>
+
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 pointer-events-none">
+                      <span className="px-4 py-2 bg-white/95 text-slate-900 text-xs font-bold rounded-xl shadow-lg flex items-center gap-1.5">
+                        <Maximize2 className="w-4 h-4 text-[#E31E24]" />
+                        <span>{lang === 'ar' ? 'انقر لتكبير الوثيقة' : 'Click to Expand'}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug font-cairo line-clamp-2">
+                        {lang === 'ar' ? cert.title_ar : cert.title_en}
+                      </h3>
+                      
+                      <div className="flex items-start gap-1.5 text-xs text-slate-600">
+                        <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
+                        <span className="line-clamp-2 leading-tight">
+                          {lang === 'ar' ? cert.authority_ar : cert.authority_en}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Reference / License Number Badge */}
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                      <span className="text-slate-500 font-medium">
+                        {lang === 'ar' ? 'رقم الترخيص / المرجع:' : 'License / Ref:'}
+                      </span>
+                      <span className="font-mono font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                        {cert.license_no}
+                      </span>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedCertIndex(originalIndex >= 0 ? originalIndex : 0)}
+                        className="w-full py-2 bg-blue-50 hover:bg-[#2B3990] text-[#2B3990] hover:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                        <span>{lang === 'ar' ? 'تكبير الوثيقة' : 'View Full'}</span>
+                      </button>
+
+                      <a
+                        href={cert.image_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>{lang === 'ar' ? 'الأصل' : 'Direct Link'}</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Complete 43-Page Documents PDF Download Banner */}
+          <div className="bg-gradient-to-r from-[#1E286C] via-[#2B3990] to-[#1E286C] p-6 sm:p-8 rounded-3xl text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 border border-blue-400/30">
+            <div className="space-y-2 text-center md:text-start">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-white rounded-full text-xs font-bold border border-white/20">
+                <FileCheck2 className="w-4 h-4 text-emerald-400" />
+                <span>{lang === 'ar' ? 'ملف الوثائق الرسمي المعتمد (43 صفحة)' : 'Complete Official Documents Portfolio'}</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black font-cairo">
+                {lang === 'ar' ? 'تحميل ملف وثائق الشركة الشامل (PDF)' : 'Download Full Company Document Portfolio (PDF)'}
+              </h3>
+              <p className="text-blue-100 text-xs sm:text-sm max-w-xl">
+                {lang === 'ar'
+                  ? 'يتضمن الملف الشامل كافة التراخيص الحكومية، الهوية القانونية، اعتمادات الأمن الصناعي والدفاع المدني، شهادات الآيزو، تأهيل أرامكو، والتأمينات الاجتماعية لتقديمها لجهات المناقصات والمشاريع.'
+                  : 'Includes all government licenses, legal identities, HCIS licenses, ISO certificates, Saudi Aramco vendor registration, and GOSI workforce docs for tenders and contracts.'}
+              </p>
+            </div>
+
+            <a
+              href="/documents/company_documents.pdf"
+              download="ملف_وثائق_شركة_تقنية_الأمان_الأولى.pdf"
+              className="px-6 py-3.5 bg-[#E31E24] hover:bg-[#C41419] text-white font-black text-xs sm:text-sm rounded-2xl shadow-xl hover:shadow-red-600/30 transition-all flex items-center gap-2 shrink-0 active:scale-95"
+            >
+              <Download className="w-4 h-4" />
+              <span>{lang === 'ar' ? 'تحميل ملف الوثائق (PDF - 9.6 MB)' : 'Download Documents (PDF - 9.6 MB)'}</span>
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7️⃣ SEVENTH SECTION: Company Profile Download CTA Banner */}
       <div className="bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] p-8 sm:p-10 rounded-3xl text-white border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2 text-center md:text-start">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-950/80 text-red-400 border border-red-800/80 rounded-full text-xs font-bold">
             <FileText className="w-4 h-4" />
-            <span>{lang === 'ar' ? 'الملف التعريفي الشامل' : 'Company Profile Deck'}</span>
+            <span>{lang === 'ar' ? 'الملف التعريفي والوثائق الرسمية' : 'Company Profile & Official Portfolio'}</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-extrabold font-cairo">
-            {lang === 'ar' ? 'تصفح البروفايل الرسمي لشركة تقنية الأمان الأولى (PDF)' : 'Download Official Company Profile (PDF)'}
+            {lang === 'ar' ? 'تصفح البروفايل الرسمي وملف وثائق الشركة (PDF)' : 'Download Official Company Profile & Documents (PDF)'}
           </h3>
           <p className="text-slate-400 text-xs sm:text-sm max-w-xl">
             {lang === 'ar' 
@@ -674,22 +915,132 @@ export default function About() {
           </p>
         </div>
 
-        {settings.company_profile_url ? (
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
           <a
-            href={settings.company_profile_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-4 bg-[#E31E24] hover:bg-[#C41419] text-white font-extrabold rounded-2xl shadow-lg hover:shadow-red-600/30 transition-all flex items-center gap-2 text-sm shrink-0 active:scale-95"
+            href="/documents/company_documents.pdf"
+            download="ملف_وثائق_شركة_تقنية_الأمان_الأولى.pdf"
+            className="px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl shadow-lg transition-all flex items-center gap-2 text-xs sm:text-sm active:scale-95"
           >
-            <Download className="w-5 h-5" />
-            <span>{lang === 'ar' ? 'تصفح / تحميل البروفايل (PDF)' : 'Download Profile PDF'}</span>
+            <Download className="w-4 h-4" />
+            <span>{lang === 'ar' ? 'ملف الوثائق (43 صفحة)' : 'Document Portfolio (43 Pages)'}</span>
           </a>
-        ) : (
-          <div className="px-6 py-3 bg-slate-800 text-slate-400 font-bold text-xs rounded-xl border border-slate-700 shrink-0">
-            {lang === 'ar' ? 'يمكنك رفع البروفايل من لوحة التحكم' : 'Upload Profile in Admin Panel'}
-          </div>
-        )}
+
+          {settings.company_profile_url ? (
+            <a
+              href={settings.company_profile_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3.5 bg-[#E31E24] hover:bg-[#C41419] text-white font-extrabold rounded-2xl shadow-lg hover:shadow-red-600/30 transition-all flex items-center gap-2 text-xs sm:text-sm active:scale-95"
+            >
+              <Download className="w-4 h-4" />
+              <span>{lang === 'ar' ? 'البروفايل التعريفي (PDF)' : 'Profile Deck (PDF)'}</span>
+            </a>
+          ) : (
+            <div className="px-6 py-3 bg-slate-800 text-slate-400 font-bold text-xs rounded-xl border border-slate-700 shrink-0">
+              {lang === 'ar' ? 'يمكنك رفع البروفايل من لوحة التحكم' : 'Upload Profile in Admin Panel'}
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* LIGHTBOX MODAL FOR CERTIFICATES & ACCREDITATIONS */}
+      {currentCert && (
+        <div
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
+          onClick={() => setSelectedCertIndex(null)}
+        >
+          <div
+            className="relative max-w-5xl w-full bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col max-h-[94vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-4 sm:p-5 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-white gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-xl bg-red-600/20 text-[#E31E24] flex items-center justify-center font-bold shrink-0">
+                  <Award className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${getBadgeStyle(currentCert.badge_color)}`}>
+                      {lang === 'ar' ? currentCert.badge_ar : currentCert.badge_en}
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-mono">
+                      {currentCert.license_no}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm sm:text-base text-white truncate font-cairo mt-0.5">
+                    {lang === 'ar' ? currentCert.title_ar : currentCert.title_en}
+                  </h3>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={currentCert.image_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-lg flex items-center gap-1 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">{lang === 'ar' ? 'فتح بحجم كامل' : 'Open Full'}</span>
+                </a>
+                <a
+                  href={currentCert.image_url}
+                  download
+                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-lg flex items-center gap-1 transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">{lang === 'ar' ? 'تحميل' : 'Download'}</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCertIndex(null)}
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-red-600 text-white transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Image Body with Next/Prev Controls */}
+            <div className="relative p-3 sm:p-5 overflow-auto flex items-center justify-center bg-slate-950/80 flex-1">
+              <img
+                src={currentCert.image_url}
+                alt={lang === 'ar' ? currentCert.title_ar : currentCert.title_en}
+                className="max-h-[76vh] w-auto max-w-full object-contain rounded-xl shadow-2xl bg-white p-2"
+              />
+
+              {/* Prev Button */}
+              <button
+                type="button"
+                onClick={handlePrevCert}
+                className="absolute start-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-900/80 hover:bg-red-600 text-white backdrop-blur-sm transition-colors shadow-xl cursor-pointer"
+                title={lang === 'ar' ? 'الوثيقة السابقة' : 'Previous Certificate'}
+              >
+                <ChevronLeft className="w-6 h-6 rtl:rotate-180" />
+              </button>
+
+              {/* Next Button */}
+              <button
+                type="button"
+                onClick={handleNextCert}
+                className="absolute end-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-900/80 hover:bg-red-600 text-white backdrop-blur-sm transition-colors shadow-xl cursor-pointer"
+                title={lang === 'ar' ? 'الوثيقة التالية' : 'Next Certificate'}
+              >
+                <ChevronRight className="w-6 h-6 rtl:rotate-180" />
+              </button>
+            </div>
+
+            {/* Modal Footer with Pagination Info */}
+            <div className="px-5 py-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+              <span>{lang === 'ar' ? currentCert.authority_ar : currentCert.authority_en}</span>
+              <span>
+                {selectedCertIndex + 1} / {certificates?.length || 15}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

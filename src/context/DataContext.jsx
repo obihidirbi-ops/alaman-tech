@@ -441,6 +441,242 @@ const INITIAL_CLIENTS = [
   { id: "c-5", name_ar: "شركة المقاولات الوطنية", name_en: "National Contracting Co.", logo_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=300&q=80", category: "Contracting", is_active: true, sort_order: 5 }
 ];
 
+// Initial Accreditations & Official Certificates (الاعتمادات والتراخيص الرسمية)
+export const INITIAL_CERTIFICATES = [
+  // 1. Industrial Security & Civil Defense (الأمن الصناعي والدفاع المدني)
+  {
+    id: "cert-1",
+    category: "security_defense",
+    title_ar: "ترخيص الهيئة العليا للأمن الصناعي - أنظمة الإطفاء",
+    title_en: "HCIS License - Firefighting Systems Installation & Maintenance",
+    authority_ar: "وزارة الداخلية - الهيئة العليا للأمن الصناعي",
+    authority_en: "Ministry of Interior - High Commission for Industrial Security (HCIS)",
+    license_no: "240211105648",
+    badge_ar: "HCIS أمن صناعي",
+    badge_en: "HCIS Accredited",
+    badge_color: "red",
+    image_url: "/certificates/cert_hcis_firefighting.jpg",
+    featured: true,
+    sort_order: 1
+  },
+  {
+    id: "cert-2",
+    category: "security_defense",
+    title_ar: "ترخيص الهيئة العليا للأمن الصناعي - أنظمة إنذار الحريق",
+    title_en: "HCIS License - Fire Alarm Systems Installation & Maintenance",
+    authority_ar: "وزارة الداخلية - الهيئة العليا للأمن الصناعي",
+    authority_en: "Ministry of Interior - High Commission for Industrial Security (HCIS)",
+    license_no: "240221105470",
+    badge_ar: "HCIS أمن صناعي",
+    badge_en: "HCIS Accredited",
+    badge_color: "red",
+    image_url: "/certificates/cert_hcis_firealarm.jpg",
+    featured: true,
+    sort_order: 2
+  },
+  {
+    id: "cert-3",
+    category: "security_defense",
+    title_ar: "ترخيص الهيئة العليا للأمن الصناعي - الأجهزة والأنظمة الأمنية",
+    title_en: "SAIS License - Integrated Security & Surveillance Systems",
+    authority_ar: "الهيئة العليا للأمن الصناعي (SAIS)",
+    authority_en: "Supreme Authority for Industrial Security (SAIS)",
+    license_no: "24506115108",
+    badge_ar: "SAIS أمني",
+    badge_en: "SAIS Security",
+    badge_color: "purple",
+    image_url: "/certificates/cert_sais_security.jpg",
+    featured: true,
+    sort_order: 3
+  },
+  {
+    id: "cert-4",
+    category: "security_defense",
+    title_ar: "ترخيص مزاولة نشاط السلامة والإطفاء - منصة سلامة",
+    title_en: "Civil Defense Practice License - Salamah Platform",
+    authority_ar: "المديرية العامة للدفاع المدني السعودي",
+    authority_en: "General Directorate of Saudi Civil Defense",
+    license_no: "100000392",
+    badge_ar: "الدفاع المدني - سلامة",
+    badge_en: "Civil Defense Salamah",
+    badge_color: "emerald",
+    image_url: "/certificates/cert_salamah_defense.jpg",
+    featured: true,
+    sort_order: 4
+  },
+
+  // 2. International ISO Standards (شهادات الآيزو العالمية)
+  {
+    id: "cert-5",
+    category: "iso",
+    title_ar: "شهادة نظام إدارة السلامة والصحة المهنية ISO 45001:2018",
+    title_en: "ISO 45001:2018 - Occupational Health & Safety Management System",
+    authority_ar: "منظمة QRO الدولية للاعتماد / عضو IAF و EGAC",
+    authority_en: "QRO Certification / IAF & EGAC Multilateral Recognition",
+    license_no: "305025051418HS",
+    badge_ar: "ISO 45001:2018",
+    badge_en: "ISO 45001:2018",
+    badge_color: "blue",
+    image_url: "/certificates/cert_iso_45001.jpg",
+    featured: true,
+    sort_order: 5
+  },
+  {
+    id: "cert-6",
+    category: "iso",
+    title_ar: "شهادة نظام إدارة الجودة العالمية ISO 9001:2015",
+    title_en: "ISO 9001:2015 - Quality Management System",
+    authority_ar: "منظمة QRO الدولية للاعتماد / عضو IAF و EGAC",
+    authority_en: "QRO Certification / IAF & EGAC Multilateral Recognition",
+    license_no: "305025051415Q",
+    badge_ar: "ISO 9001:2015",
+    badge_en: "ISO 9001:2015",
+    badge_color: "blue",
+    image_url: "/certificates/cert_iso_9001.jpg",
+    featured: true,
+    sort_order: 6
+  },
+  {
+    id: "cert-7",
+    category: "iso",
+    title_ar: "شهادة نظام الإدارة البيئية المعتمدة ISO 14001:2015",
+    title_en: "ISO 14001:2015 - Environmental Management System",
+    authority_ar: "منظمة QRO الدولية للاعتماد / عضو IAF و EGAC",
+    authority_en: "QRO Certification / IAF & EGAC Multilateral Recognition",
+    license_no: "305025051417E",
+    badge_ar: "ISO 14001:2015",
+    badge_en: "ISO 14001:2015",
+    badge_color: "blue",
+    image_url: "/certificates/cert_iso_14001.jpg",
+    featured: true,
+    sort_order: 7
+  },
+
+  // 3. Corporate Authorities & Aramco (أرامكو السعودية وهيئة المقاولين)
+  {
+    id: "cert-8",
+    category: "corporate_authorities",
+    title_ar: "خطاب تسجيل وتأهيل مورد معتمد - أرامكو السعودية",
+    title_en: "Saudi Aramco Approved Supplier Registration Approval Letter",
+    authority_ar: "شركة الزيت العربية السعودية (أرامكو السعودية)",
+    authority_en: "Saudi Arabian Oil Company (Saudi Aramco)",
+    license_no: "Vendor Code: 10115978",
+    badge_ar: "مورد معتمد - أرامكو",
+    badge_en: "Saudi Aramco Approved",
+    badge_color: "blue",
+    image_url: "/certificates/cert_aramco_vendor.jpg",
+    featured: true,
+    sort_order: 8
+  },
+  {
+    id: "cert-9",
+    category: "corporate_authorities",
+    title_ar: "شهادة الامتثال للأمن السيبراني لمعيار أرامكو (SACS-002)",
+    title_en: "Cybersecurity Compliance Certificate - Saudi Aramco SACS-002 Standard",
+    authority_ar: "شركة كرو السعودية (Crowe) / أرامكو السعودية",
+    authority_en: "Crowe Saudi Arabia / Saudi Aramco Third Party Standard",
+    license_no: "03-1560-052125-N",
+    badge_ar: "أمن سيبراني أرامكو",
+    badge_en: "Aramco Cybersecurity",
+    badge_color: "amber",
+    image_url: "/certificates/cert_aramco_cybersecurity.jpg",
+    featured: true,
+    sort_order: 9
+  },
+  {
+    id: "cert-10",
+    category: "corporate_authorities",
+    title_ar: "شهادة عضوية مقاول معتمد - الهيئة السعودية للمقاولين",
+    title_en: "Saudi Contractors Authority (SCA) - Certified Contractor Membership",
+    authority_ar: "الهيئة السعودية للمقاولين (SCA)",
+    authority_en: "Saudi Contractors Authority (SCA)",
+    license_no: "52825287",
+    badge_ar: "عضوية SCA",
+    badge_en: "SCA Member",
+    badge_color: "emerald",
+    image_url: "/certificates/cert_sca_contractor.jpg",
+    featured: true,
+    sort_order: 10
+  },
+
+  // 4. Government Licenses & Commercial (التراخيص والسجلات الحكومية)
+  {
+    id: "cert-11",
+    category: "commercial_licenses",
+    title_ar: "شهادة السجل التجاري الموحد - وزارة التجارة",
+    title_en: "Unified Commercial Registration Certificate - Ministry of Commerce",
+    authority_ar: "وزارة التجارة - المملكة العربية السعودية",
+    authority_en: "Ministry of Commerce - Kingdom of Saudi Arabia",
+    license_no: "CR: 2050186811 / 7039087221",
+    badge_ar: "وزارة التجارة",
+    badge_en: "Ministry of Commerce",
+    badge_color: "emerald",
+    image_url: "/certificates/cert_cr_main.jpg",
+    featured: false,
+    sort_order: 11
+  },
+  {
+    id: "cert-12",
+    category: "commercial_licenses",
+    title_ar: "شهادة عضوية واشتراك الغرفة التجارية بالمنطقة الشرقية",
+    title_en: "Asharqia Chamber of Commerce - Membership Certificate",
+    authority_ar: "غرفة الشرقية - البوابة الموحدة للغرف السعودية",
+    authority_en: "Asharqia Chamber of Commerce & Industry",
+    license_no: "1023019",
+    badge_ar: "غرفة الشرقية",
+    badge_en: "Asharqia Chamber",
+    badge_color: "blue",
+    image_url: "/certificates/cert_chamber_commerce.jpg",
+    featured: false,
+    sort_order: 12
+  },
+  {
+    id: "cert-13",
+    category: "commercial_licenses",
+    title_ar: "رخصة النشاط التجاري البلدية - منصة بلدي",
+    title_en: "Municipal Commercial Activity License - Balady Services",
+    authority_ar: "أمانة المنطقة الشرقية - بلدية غرب الدمام",
+    authority_en: "Eastern Province Municipality - West Dammam Sub-Municipality",
+    license_no: "451216078052",
+    badge_ar: "منصة بلدي",
+    badge_en: "Balady Platform",
+    badge_color: "emerald",
+    image_url: "/certificates/cert_balady.jpg",
+    featured: false,
+    sort_order: 13
+  },
+  {
+    id: "cert-14",
+    category: "commercial_licenses",
+    title_ar: "شهادة تصنيف المنشآت المعتمدة - منشآت",
+    title_en: "Monsha'at SME Enterprise Classification Certificate",
+    authority_ar: "الهيئة العامة للمنشآت الصغيرة والمتوسطة (منشآت)",
+    authority_en: "Small and Medium Enterprises General Authority (Monsha'at)",
+    license_no: "25321216427",
+    badge_ar: "منشآت",
+    badge_en: "Monsha'at",
+    badge_color: "amber",
+    image_url: "/certificates/cert_monshaat.jpg",
+    featured: false,
+    sort_order: 14
+  },
+  {
+    id: "cert-15",
+    category: "commercial_licenses",
+    title_ar: "شهادة تسجيل ضريبة القيمة المضافة والزكاة (ZATCA)",
+    title_en: "VAT & Zakat Registration Certificate - ZATCA",
+    authority_ar: "هيئة الزكاة والضريبة والجمارك",
+    authority_en: "Zakat, Tax and Customs Authority (ZATCA)",
+    license_no: "312216835500003",
+    badge_ar: "هيئة ZATCA",
+    badge_en: "ZATCA",
+    badge_color: "emerald",
+    image_url: "/certificates/cert_zatca_tax.jpg",
+    featured: false,
+    sort_order: 15
+  }
+];
+
 // Initial Site Settings
 const INITIAL_SETTINGS = {
   hero_title_ar: "الحلول المتكاملة للأنظمة التقنية وأنظمة السلامة في المملكة",
@@ -493,7 +729,8 @@ const INITIAL_SETTINGS = {
   instagram_url: "https://www.instagram.com/alaman.tech/",
   twitter_url: "https://x.com/alamansmm",
   snapchat_url: "https://www.snapchat.com/add/alaman.tec",
-  company_profile_url: ""
+  company_profile_url: "",
+  company_documents_pdf_url: "/documents/company_documents.pdf"
 };
 
 // Initial Sample Inbox Submissions
@@ -559,6 +796,24 @@ export const DataProvider = ({ children }) => {
     }
   });
 
+  // Certificates & Official Accreditations State
+  const [certificates, setCertificates] = useState(() => {
+    try {
+      const saved = localStorage.getItem('alaman_certificates_v1');
+      return saved ? JSON.parse(saved) : INITIAL_CERTIFICATES;
+    } catch {
+      return INITIAL_CERTIFICATES;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('alaman_certificates_v1', JSON.stringify(certificates));
+    } catch {
+      // ignore
+    }
+  }, [certificates]);
+
   // Site Settings State
   const [settings, setSettings] = useState(() => {
     try {
@@ -567,6 +822,9 @@ export const DataProvider = ({ children }) => {
         const parsed = JSON.parse(saved);
         if (!parsed.org_chart_image_url || parsed.org_chart_image_url.trim() === '') {
           parsed.org_chart_image_url = '/organizational_chart.jpg';
+        }
+        if (!parsed.company_documents_pdf_url || parsed.company_documents_pdf_url.trim() === '') {
+          parsed.company_documents_pdf_url = '/documents/company_documents.pdf';
         }
         return { ...INITIAL_SETTINGS, ...parsed };
       }
@@ -841,6 +1099,20 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  // Certificate CRUD
+  const saveCertificate = (certData) => {
+    if (certData.id) {
+      setCertificates(prev => prev.map(c => c.id === certData.id ? { ...certData } : c));
+    } else {
+      const newCert = { ...certData, id: "cert-" + Date.now() };
+      setCertificates(prev => [...prev, newCert]);
+    }
+  };
+
+  const deleteCertificate = (id) => {
+    setCertificates(prev => prev.filter(c => c.id !== id));
+  };
+
   // Inbox Submission
   const submitInboxMessage = (msgData) => {
     const newMsg = {
@@ -933,6 +1205,7 @@ export const DataProvider = ({ children }) => {
       services,
       projects,
       clients,
+      certificates,
       settings,
       inbox,
       isAdminAuthenticated,
@@ -947,6 +1220,8 @@ export const DataProvider = ({ children }) => {
       deleteProject,
       saveClient,
       deleteClient,
+      saveCertificate,
+      deleteCertificate,
       submitInboxMessage,
       updateInboxStatus,
       deleteInboxMessage,
