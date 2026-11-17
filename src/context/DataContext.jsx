@@ -677,6 +677,120 @@ export const INITIAL_CERTIFICATES = [
   }
 ];
 
+// Initial Accredited Authorities & Bodies Logos (شعارات الجهات المعتمدة)
+export const INITIAL_ACCREDITATION_LOGOS = [
+  {
+    id: "auth-1",
+    name_ar: "الهيئة العليا للأمن الصناعي (HCIS)",
+    name_en: "High Commission for Industrial Security (HCIS)",
+    badge_ar: "اعتماد HCIS",
+    badge_en: "HCIS Approved",
+    tag: "وزارة الداخلية",
+    logo_url: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 1
+  },
+  {
+    id: "auth-2",
+    name_ar: "المديرية العامة للدفاع المدني (سلامة)",
+    name_en: "Saudi Civil Defense (Salamah)",
+    badge_ar: "ترخيص سلامة",
+    badge_en: "Salamah License",
+    tag: "الدفاع المدني",
+    logo_url: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 2
+  },
+  {
+    id: "auth-3",
+    name_ar: "أرامكو السعودية",
+    name_en: "Saudi Aramco",
+    badge_ar: "مورد معتمد #10115978",
+    badge_en: "Approved Vendor #10115978",
+    tag: "تأهيل وتوريد",
+    logo_url: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 3
+  },
+  {
+    id: "auth-4",
+    name_ar: "شهادات الآيزو العالمية (ISO)",
+    name_en: "ISO Certified (9001 · 45001 · 14001)",
+    badge_ar: "ISO معتمد",
+    badge_en: "ISO Certified",
+    tag: "جودة وسلامة وبيئة",
+    logo_url: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 4
+  },
+  {
+    id: "auth-5",
+    name_ar: "الهيئة السعودية للمقاولين (SCA)",
+    name_en: "Saudi Contractors Authority (SCA)",
+    badge_ar: "عضوية مقاول SCA",
+    badge_en: "SCA Member",
+    tag: "هيئة المقاولين",
+    logo_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 5
+  },
+  {
+    id: "auth-6",
+    name_ar: "هيئة الزكاة والضريبة والجمارك (ZATCA)",
+    name_en: "Zakat, Tax and Customs Authority",
+    badge_ar: "تسجيل ضريبي وزكوي",
+    badge_en: "ZATCA Registered",
+    tag: "مكلف نظامي",
+    logo_url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 6
+  },
+  {
+    id: "auth-7",
+    name_ar: "وزارة التجارة",
+    name_en: "Ministry of Commerce",
+    badge_ar: "سجل تجاري نشط",
+    badge_en: "Active Commercial Record",
+    tag: "سجل موحد",
+    logo_url: "https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 7
+  },
+  {
+    id: "auth-8",
+    name_ar: "منصة بلدي - أمانة الشرقية",
+    name_en: "Balady Municipal Platform",
+    badge_ar: "رخصة نشاط تجاري",
+    badge_en: "Commercial License",
+    tag: "رخصة بلدية",
+    logo_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 8
+  },
+  {
+    id: "auth-9",
+    name_ar: "الهيئة العامة للمنشآت (منشآت)",
+    name_en: "Monsha'at SME Authority",
+    badge_ar: "تصنيف منشآت",
+    badge_en: "Monsha'at Certified",
+    tag: "تصنيف معتمد",
+    logo_url: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 9
+  },
+  {
+    id: "auth-10",
+    name_ar: "الغرفة التجارية بالشرقية",
+    name_en: "Asharqia Chamber of Commerce",
+    badge_ar: "اشتراك الغرفة التجارية",
+    badge_en: "Chamber Member",
+    tag: "عضوية تجارية",
+    logo_url: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
+    is_active: true,
+    sort_order: 10
+  }
+];
+
 // Initial Site Settings
 const INITIAL_SETTINGS = {
   hero_title_ar: "الحلول المتكاملة للأنظمة التقنية وأنظمة السلامة في المملكة",
@@ -730,7 +844,18 @@ const INITIAL_SETTINGS = {
   twitter_url: "https://x.com/alamansmm",
   snapchat_url: "https://www.snapchat.com/add/alaman.tec",
   company_profile_url: "",
-  company_documents_pdf_url: "/documents/company_documents.pdf"
+  company_documents_pdf_url: "/documents/company_documents.pdf",
+  // Section Publishing Visibility Toggles (نشر / تعطيل الأقسام من لوحة الإدارة)
+  show_hero_section: true,
+  show_services_section: true,
+  show_manpower_section: true,
+  show_org_chart_section: true,
+  show_accreditations_section: true,
+  show_accreditation_logos: true,
+  show_projects_section: true,
+  show_clients_section: true,
+  show_profile_download_section: true,
+  show_quote_section: true
 };
 
 // Initial Sample Inbox Submissions
@@ -813,6 +938,24 @@ export const DataProvider = ({ children }) => {
       // ignore
     }
   }, [certificates]);
+
+  // Accredited Authorities & Logos State
+  const [accreditationLogos, setAccreditationLogos] = useState(() => {
+    try {
+      const saved = localStorage.getItem('alaman_accreditation_logos_v1');
+      return saved ? JSON.parse(saved) : INITIAL_ACCREDITATION_LOGOS;
+    } catch {
+      return INITIAL_ACCREDITATION_LOGOS;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('alaman_accreditation_logos_v1', JSON.stringify(accreditationLogos));
+    } catch {
+      // ignore
+    }
+  }, [accreditationLogos]);
 
   // Site Settings State
   const [settings, setSettings] = useState(() => {
@@ -1113,6 +1256,20 @@ export const DataProvider = ({ children }) => {
     setCertificates(prev => prev.filter(c => c.id !== id));
   };
 
+  // Accreditation Authority Logos CRUD
+  const saveAccreditationLogo = (logoData) => {
+    if (logoData.id) {
+      setAccreditationLogos(prev => prev.map(l => l.id === logoData.id ? { ...logoData } : l));
+    } else {
+      const newLogo = { ...logoData, id: "auth-" + Date.now() };
+      setAccreditationLogos(prev => [...prev, newLogo]);
+    }
+  };
+
+  const deleteAccreditationLogo = (id) => {
+    setAccreditationLogos(prev => prev.filter(l => l.id !== id));
+  };
+
   // Inbox Submission
   const submitInboxMessage = (msgData) => {
     const newMsg = {
@@ -1206,6 +1363,7 @@ export const DataProvider = ({ children }) => {
       projects,
       clients,
       certificates,
+      accreditationLogos,
       settings,
       inbox,
       isAdminAuthenticated,
@@ -1222,6 +1380,8 @@ export const DataProvider = ({ children }) => {
       deleteClient,
       saveCertificate,
       deleteCertificate,
+      saveAccreditationLogo,
+      deleteAccreditationLogo,
       submitInboxMessage,
       updateInboxStatus,
       deleteInboxMessage,

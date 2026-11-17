@@ -8,6 +8,7 @@ import {
   Wrench,
   Building,
   Users,
+  Award,
   Inbox,
   Settings,
   LogOut,
@@ -31,6 +32,7 @@ export default function AdminDashboardLayout() {
     { path: '/admin/services', label: t('manageServices'), icon: Wrench },
     { path: '/admin/projects', label: t('manageProjects'), icon: Building },
     { path: '/admin/clients', label: t('manageClients'), icon: Users },
+    { path: '/admin/certificates', label: lang === 'ar' ? 'الشهادات والاعتمادات' : 'Accreditations & Certs', icon: Award },
     { path: '/admin/messages', label: t('manageInbox'), icon: Inbox, badge: unreadInboxCount },
     { path: '/admin/settings', label: t('manageSettings'), icon: Settings },
   ];

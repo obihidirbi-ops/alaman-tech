@@ -28,7 +28,7 @@ import {
 
 export default function About() {
   const { t, lang } = useLanguage();
-  const { settings, certificates } = useData();
+  const { settings, certificates = [], accreditationLogos = [] } = useData();
   const [orgChartModalOpen, setOrgChartModalOpen] = useState(false);
   const [activeCertCategory, setActiveCertCategory] = useState('all');
   const [selectedCertIndex, setSelectedCertIndex] = useState(null);
@@ -235,6 +235,7 @@ export default function About() {
       </div>
 
       {/* 4️⃣ FOURTH SECTION: MANPOWER & TECHNICAL WORKFORCE (القوى العاملة والكوادر الفنية) */}
+      {settings.show_manpower_section !== false && (
       <section id="manpower" className="scroll-mt-24 space-y-8">
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-lg space-y-8 relative overflow-hidden">
           <div className="absolute top-0 start-0 w-2.5 h-full bg-gradient-to-b from-[#E31E24] via-[#2B3990] to-emerald-600"></div>
@@ -396,9 +397,12 @@ export default function About() {
           </div>
         </div>
       </section>
+      )}
 
       {/* 5️⃣ FIFTH SECTION: ORGANIZATIONAL STRUCTURE (الهيكل التنظيمي والإداري) */}
-      <section id="org-chart" className="scroll-mt-24 space-y-8">
+      {settings.show_org_chart_section !== false && (
+        <>
+          <section id="org-chart" className="scroll-mt-24 space-y-8">
         <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-lg space-y-8">
           
           {/* Header */}
@@ -706,8 +710,11 @@ export default function About() {
           </div>
         </div>
       )}
+      </>
+      )}
 
       {/* 6️⃣ SIXTH SECTION: ACCREDITATIONS & TECHNICAL CERTIFICATES (الاعتمادات والتراخيص والشهادات الرسمية) */}
+      {settings.show_accreditations_section !== false && (
       <section id="accreditations" className="scroll-mt-24 space-y-8">
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-sm space-y-8">
           
@@ -868,7 +875,52 @@ export default function About() {
             })}
           </div>
 
+          {/* Accredited Authorities & Regulatory Bodies Showcase Ribbon */}
+          {settings.show_accreditation_logos !== false && accreditationLogos && accreditationLogos.length > 0 && (
+            <div className="pt-6 border-t border-slate-200/80 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 className="font-extrabold text-base sm:text-lg text-slate-900 font-cairo">
+                    {lang === 'ar' ? 'الجهات والوزارات الحكومية المعتمدين لديها' : 'Accredited Authorities & Regulatory Bodies'}
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    {lang === 'ar' ? 'تأهيل وترخيص معتمد لدى أهم القطاعات والهيئات الرسمية في المملكة' : 'Officially certified and prequalified by key Saudi regulators & enterprises'}
+                  </p>
+                </div>
+                <span className="text-[11px] font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full shrink-0 self-start sm:self-auto">
+                  {accreditationLogos.filter(a => a.is_active !== false).length} {lang === 'ar' ? 'جهات وهيئات رسمية' : 'Accredited Bodies'}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {accreditationLogos.filter(a => a.is_active !== false).map((auth) => (
+                  <div
+                    key={auth.id}
+                    className="p-3.5 bg-slate-50 hover:bg-white rounded-2xl border border-slate-200 hover:border-[#2B3990]/40 transition-all shadow-2xs hover:shadow-sm flex flex-col items-center text-center gap-2 group"
+                  >
+                    <div className="w-14 h-14 rounded-xl bg-white p-1.5 border border-slate-200/80 shadow-2xs flex items-center justify-center overflow-hidden">
+                      <img
+                        src={auth.logo_url}
+                        alt={lang === 'ar' ? auth.name_ar : auth.name_en}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                      />
+                    </div>
+                    <div className="w-full">
+                      <div className="font-bold text-xs text-slate-900 truncate">
+                        {lang === 'ar' ? auth.name_ar : auth.name_en}
+                      </div>
+                      <div className="text-[10px] text-slate-500 truncate mt-0.5">
+                        {lang === 'ar' ? auth.badge_ar : auth.badge_en}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Complete 43-Page Documents PDF Download Banner */}
+          {settings.show_profile_download_section !== false && (
           <div className="bg-gradient-to-r from-[#1E286C] via-[#2B3990] to-[#1E286C] p-6 sm:p-8 rounded-3xl text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 border border-blue-400/30">
             <div className="space-y-2 text-center md:text-start">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-white rounded-full text-xs font-bold border border-white/20">
@@ -894,11 +946,14 @@ export default function About() {
               <span>{lang === 'ar' ? 'تحميل ملف الوثائق (PDF - 9.6 MB)' : 'Download Documents (PDF - 9.6 MB)'}</span>
             </a>
           </div>
+          )}
 
         </div>
       </section>
+      )}
 
       {/* 7️⃣ SEVENTH SECTION: Company Profile Download CTA Banner */}
+      {settings.show_profile_download_section !== false && (
       <div className="bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] p-8 sm:p-10 rounded-3xl text-white border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2 text-center md:text-start">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-950/80 text-red-400 border border-red-800/80 rounded-full text-xs font-bold">
@@ -942,6 +997,7 @@ export default function About() {
           )}
         </div>
       </div>
+      )}
 
       {/* LIGHTBOX MODAL FOR CERTIFICATES & ACCREDITATIONS */}
       {currentCert && (

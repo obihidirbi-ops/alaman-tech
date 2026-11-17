@@ -3,7 +3,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useData } from '../../context/DataContext';
 import ImageUploadInput from '../../components/ImageUploadInput';
 import DocumentUploadInput from '../../components/DocumentUploadInput';
-import { Save, CheckCircle2 } from 'lucide-react';
+import { Save, CheckCircle2, Layers, Eye, EyeOff, Check, X } from 'lucide-react';
 
 export default function AdminSettings() {
   const { t, lang } = useLanguage();
@@ -54,6 +54,10 @@ export default function AdminSettings() {
 
       {/* Quick Navigation Anchor Bar */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+        <a href="#sec-sections" className="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold rounded-xl border border-emerald-200 shrink-0 transition-colors flex items-center gap-1.5 shadow-sm">
+          <span>⚡</span>
+          <span>نشر وتعطيل الأقسام (Section Control)</span>
+        </a>
         <a href="#sec-brand" className="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl border border-slate-200 shrink-0 transition-colors">
           الشعار والبروفايل
         </a>
@@ -80,6 +84,189 @@ export default function AdminSettings() {
       </div>
 
       <form onSubmit={handleSave} className="space-y-6 text-xs">
+        
+        {/* Section -1: Section Visibility & Publishing Controls */}
+        <div id="sec-sections" className="bg-white p-6 rounded-2xl border-2 border-emerald-500/30 shadow-md space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4 border-slate-100">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg">
+                  <Layers className="w-5 h-5" />
+                </span>
+                <h3 className="text-base font-bold text-slate-900 font-cairo">
+                  إدارة نشر وتعطيل أقسام الموقع (Section Publishing Control)
+                </h3>
+              </div>
+              <p className="text-xs text-slate-500 mt-1">
+                يمكنك بنقرة زر واحدة إظهار أو إخفاء أي قسم في الموقع مباشرة لجميع الزوار دون التأثير على البيانات المحفوظة.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData(prev => ({
+                    ...prev,
+                    show_hero_section: true,
+                    show_services_section: true,
+                    show_manpower_section: true,
+                    show_org_chart_section: true,
+                    show_accreditations_section: true,
+                    show_accreditation_logos: true,
+                    show_projects_section: true,
+                    show_clients_section: true,
+                    show_profile_download_section: true,
+                    show_quote_section: true
+                  }));
+                }}
+                className="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
+              >
+                تفعيل ونشر الكل
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData(prev => ({
+                    ...prev,
+                    show_hero_section: false,
+                    show_services_section: false,
+                    show_manpower_section: false,
+                    show_org_chart_section: false,
+                    show_accreditations_section: false,
+                    show_accreditation_logos: false,
+                    show_projects_section: false,
+                    show_clients_section: false,
+                    show_profile_download_section: false,
+                    show_quote_section: false
+                  }));
+                }}
+                className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
+              >
+                تعطيل الكل
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            {[
+              {
+                key: 'show_hero_section',
+                title: 'الواجهة الرئيسية والبانر الترحيبي (Hero Section)',
+                desc: 'السلايدر التفاعلي والعناوين الرئيسية وأزرار الإجراءات السريعة',
+                pages: 'الصفحة الرئيسية',
+                icon: '🚀'
+              },
+              {
+                key: 'show_services_section',
+                title: 'خدمات وأنظمة السلامة (Services & Solutions)',
+                desc: 'شبكة بطاقات الخدمات الـ 12 المتخصصة للسلامة ومكافحة الحريق',
+                pages: 'الرئيسية والكتالوج',
+                icon: '🧯'
+              },
+              {
+                key: 'show_manpower_section',
+                title: 'قسم الكوادر البشرية والفرق الفنية (Manpower Section)',
+                desc: 'عدادات وبطاقات المهندسين والفنيين ومشرفي السلامة والعمالة',
+                pages: 'صفحة من نحن',
+                icon: '👷‍♂️'
+              },
+              {
+                key: 'show_org_chart_section',
+                title: 'الهيكل التنظيمي والإداري للشركة (Org Structure Chart)',
+                desc: 'مخطط الهيكل الإداري والقيادي وتسلسل الفرق التنفيذية',
+                pages: 'صفحة من نحن',
+                icon: '🏢'
+              },
+              {
+                key: 'show_accreditations_section',
+                title: 'قسم الشهادات والاعتمادات الرسمية (Accreditations & Certs)',
+                desc: 'تراخيص HCIS، الدفاع المدني، شهادات ISO العالمية، وتصنيف المقاولين',
+                pages: 'صفحة من نحن',
+                icon: '📜'
+              },
+              {
+                key: 'show_accreditation_logos',
+                title: 'شريط شعارات الجهات المعتمدة (Accreditation Logos Ribbon)',
+                desc: 'عرض شعارات الهيئات والوزارات الحكومية المعتمدين لديها',
+                pages: 'الرئيسية ومن نحن',
+                icon: '🏛️'
+              },
+              {
+                key: 'show_projects_section',
+                title: 'قسم سابقة الأعمال والمشاريع (Projects Showcase)',
+                desc: 'معرض المشاريع المنفذة مع الفلاتر وصور الأعمال الميدانية',
+                pages: 'الرئيسية والمشاريع',
+                icon: '🏗️'
+              },
+              {
+                key: 'show_clients_section',
+                title: 'قسم شركاء النجاح وعملاؤنا (Clients & Partners)',
+                desc: 'شريط وشبكة شعارات كبرى الشركات والمؤسسات الشريكة',
+                pages: 'الرئيسية والعملاء',
+                icon: '🤝'
+              },
+              {
+                key: 'show_profile_download_section',
+                title: 'بنرات تحميل البروفايل ووثائق الشركة (Profile Download CTA)',
+                desc: 'أزرار وبنرات تنزيل البروفايل وكتيب وثائق الشركة المجمّع 43 صفحة',
+                pages: 'الرئيسية ومن نحن',
+                icon: '📥'
+              },
+              {
+                key: 'show_quote_section',
+                title: 'نموذج طلب عرض السعر السريع (Request Quote Form)',
+                desc: 'نموذج تقديم طلبات عروض الأسعار والمواصفات الفنية',
+                pages: 'الرئيسية وصفحة الطلب',
+                icon: '📋'
+              }
+            ].map((sec) => {
+              const isEnabled = formData[sec.key] !== false;
+              return (
+                <div
+                  key={sec.key}
+                  className={`p-4 rounded-xl border transition-all flex items-center justify-between gap-3 ${
+                    isEnabled
+                      ? 'bg-white border-slate-200 shadow-sm'
+                      : 'bg-slate-50/70 border-dashed border-slate-300 opacity-75'
+                  }`}
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">{sec.icon}</span>
+                      <h4 className="font-bold text-slate-900 text-xs">{sec.title}</h4>
+                      <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold">
+                        {sec.pages}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 leading-relaxed pr-6">{sec.desc}</p>
+                    <div className="flex items-center gap-1.5 pt-0.5">
+                      <span className={`w-2 h-2 rounded-full ${isEnabled ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></span>
+                      <span className={`text-[10px] font-bold ${isEnabled ? 'text-emerald-700' : 'text-slate-500'}`}>
+                        {isEnabled ? 'منشور ونشط على الموقع' : 'معطّل ومخفي حالياً'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Clean Accessible Toggle Switch */}
+                  <div dir="ltr" className="shrink-0">
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={isEnabled}
+                      onClick={() => setFormData(prev => ({ ...prev, [sec.key]: prev[sec.key] === false ? true : false }))}
+                      className={`w-12 h-6.5 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 focus:outline-none ${
+                        isEnabled ? 'bg-emerald-600 justify-end' : 'bg-slate-300 justify-start'
+                      }`}
+                    >
+                      <span className="bg-white w-4.5 h-4.5 rounded-full shadow-md transform transition-transform" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         
         {/* Section 0: Custom Logo Upload */}
         <div id="sec-brand" className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">

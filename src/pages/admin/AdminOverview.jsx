@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useData } from '../../context/DataContext';
-import { Wrench, Building, Users, Inbox, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { Wrench, Building, Users, Inbox, MessageSquare, ArrowUpRight, Award, ShieldCheck } from 'lucide-react';
 
 export default function AdminOverview() {
   const { t, lang } = useLanguage();
-  const { services, projects, clients, inbox } = useData();
+  const { services, projects, clients, certificates = [], accreditationLogos = [], inbox } = useData();
 
   const contactCount = inbox.filter(m => m.type === 'contact').length;
   const quoteCount = inbox.filter(m => m.type === 'quote').length;
@@ -25,47 +25,64 @@ export default function AdminOverview() {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <Link to="/admin/services" className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-[#E31E24]/40 hover:shadow-md transition-all group">
           <div>
-            <div className="text-xs font-bold text-slate-500">{t('manageServices')}</div>
+            <div className="text-xs font-bold text-slate-500 group-hover:text-[#E31E24] transition-colors">{t('manageServices')}</div>
             <div className="text-2xl font-black text-slate-900 font-cairo mt-1">{services.length}</div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-red-50 text-[#E31E24] flex items-center justify-center font-bold">
+          <div className="w-10 h-10 rounded-xl bg-red-50 text-[#E31E24] flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
             <Wrench className="w-5 h-5" />
           </div>
-        </div>
+        </Link>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <Link to="/admin/projects" className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-[#2B3990]/40 hover:shadow-md transition-all group">
           <div>
-            <div className="text-xs font-bold text-slate-500">{t('manageProjects')}</div>
+            <div className="text-xs font-bold text-slate-500 group-hover:text-[#2B3990] transition-colors">{t('manageProjects')}</div>
             <div className="text-2xl font-black text-slate-900 font-cairo mt-1">{projects.length}</div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2B3990] flex items-center justify-center font-bold">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2B3990] flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
             <Building className="w-5 h-5" />
           </div>
-        </div>
+        </Link>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <Link to="/admin/clients" className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-emerald-500/40 hover:shadow-md transition-all group">
           <div>
-            <div className="text-xs font-bold text-slate-500">{t('manageClients')}</div>
+            <div className="text-xs font-bold text-slate-500 group-hover:text-emerald-600 transition-colors">{t('manageClients')}</div>
             <div className="text-2xl font-black text-slate-900 font-cairo mt-1">{clients.length}</div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
             <Users className="w-5 h-5" />
           </div>
-        </div>
+        </Link>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <Link to="/admin/certificates" className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-amber-500/40 hover:shadow-md transition-all group">
           <div>
-            <div className="text-xs font-bold text-slate-500">طلبات ورسائل واردة</div>
+            <div className="text-xs font-bold text-slate-500 group-hover:text-amber-600 transition-colors">
+              {lang === 'ar' ? 'الشهادات والاعتمادات' : 'Accreditations'}
+            </div>
+            <div className="text-2xl font-black text-slate-900 font-cairo mt-1 flex items-baseline gap-1">
+              <span>{certificates.length}</span>
+              <span className="text-[10px] font-bold text-slate-400 font-sans">({accreditationLogos.length} جهة)</span>
+            </div>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
+            <Award className="w-5 h-5" />
+          </div>
+        </Link>
+
+        <Link to="/admin/messages" className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-purple-500/40 hover:shadow-md transition-all group">
+          <div>
+            <div className="text-xs font-bold text-slate-500 group-hover:text-purple-600 transition-colors">
+              {lang === 'ar' ? 'الطلبات والرسائل' : 'Inbox Messages'}
+            </div>
             <div className="text-2xl font-black text-[#E31E24] font-cairo mt-1">{inbox.length}</div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
             <Inbox className="w-5 h-5" />
           </div>
-        </div>
+        </Link>
 
       </div>
 

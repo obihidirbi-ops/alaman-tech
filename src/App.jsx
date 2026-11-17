@@ -23,6 +23,7 @@ import AdminOverview from './pages/admin/AdminOverview';
 import AdminServices from './pages/admin/AdminServices';
 import AdminProjects from './pages/admin/AdminProjects';
 import AdminClients from './pages/admin/AdminClients';
+import AdminCertificates from './pages/admin/AdminCertificates';
 import AdminInbox from './pages/admin/AdminInbox';
 import AdminSettings from './pages/admin/AdminSettings';
 
@@ -76,6 +77,7 @@ function MainLayout() {
             <Route path="services" element={<AdminServices />} />
             <Route path="projects" element={<AdminProjects />} />
             <Route path="clients" element={<AdminClients />} />
+            <Route path="certificates" element={<AdminCertificates />} />
             <Route path="messages" element={<AdminInbox />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>

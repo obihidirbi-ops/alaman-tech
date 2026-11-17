@@ -25,7 +25,7 @@ import {
 
 export default function Home() {
   const { t, lang, isRTL } = useLanguage();
-  const { services, projects, clients, settings, openProfileModal } = useData();
+  const { services, projects, clients, accreditationLogos = [], settings, openProfileModal } = useData();
 
   const [projectFilter, setProjectFilter] = useState('all');
 
@@ -90,6 +90,7 @@ export default function Home() {
     <div className="space-y-16 pb-16 overflow-hidden">
       
       {/* AUTOMATED 5-SECOND HERO SLIDESHOW SECTION (STATIC BACKGROUND IMAGES) */}
+      {settings.show_hero_section !== false && (
       <section className="relative bg-slate-950 text-white min-h-[520px] lg:min-h-[560px] flex items-center overflow-hidden">
         
         {/* Full-bleed Static Background Image Stack (No Motion/Zoom) */}
@@ -196,8 +197,10 @@ export default function Home() {
         </div>
 
       </section>
+      )}
 
       {/* 12 CORE SERVICES (BENTO GRID LAYOUT) */}
+      {settings.show_services_section !== false && (
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs font-bold text-[#E31E24] uppercase tracking-wider bg-red-50 border border-red-200 px-3 py-1 rounded-md">
@@ -262,8 +265,10 @@ export default function Home() {
           ))}
         </div>
       </section>
+      )}
 
       {/* FEATURED PORTFOLIO SECTION WITH FILTERS */}
+      {settings.show_projects_section !== false && (
       <section className="bg-slate-900 text-white py-16 border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           
@@ -360,6 +365,7 @@ export default function Home() {
 
         </div>
       </section>
+      )}
 
       {/* WHY CHOOSE US & LIVE STATS SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -500,7 +506,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ACCREDITED AUTHORITIES & BODIES LOGOS RIBBON */}
+      {settings.show_accreditation_logos !== false && accreditationLogos && accreditationLogos.length > 0 && (
+        <section className="bg-slate-100/90 border-y border-slate-200 py-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-start">
+              <div>
+                <span className="text-[11px] font-bold text-[#E31E24] uppercase tracking-wider bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-md inline-block mb-1.5">
+                  {lang === 'ar' ? 'الاعتمادات والتراخيص الحكومية' : 'Official Accreditations & Licenses'}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-cairo">
+                  {lang === 'ar' ? 'الجهات والوزارات الحكومية المعتمدين لديها' : 'Accredited Authorities & Regulatory Bodies'}
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {lang === 'ar' ? 'تراخيص رسمية معتمدة من الأمن الصناعي، الدفاع المدني، أرامكو، وهيئة المقاولين' : 'Authorized & prequalified by HCIS, Civil Defense, Aramco, and Contractors Authority'}
+                </p>
+              </div>
+
+              <Link
+                to="/about#accreditations"
+                className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 hover:text-[#E31E24] text-xs font-bold rounded-xl border border-slate-200 shadow-2xs transition-colors flex items-center gap-1.5 shrink-0 self-center sm:self-auto"
+              >
+                <span>{lang === 'ar' ? 'استعراض كافة الوثائق والشهادات' : 'View All Certificates'}</span>
+                <ArrowIcon className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5">
+              {accreditationLogos.filter(a => a.is_active !== false).slice(0, 10).map((auth) => (
+                <div
+                  key={auth.id}
+                  className="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-sm hover:border-[#2B3990]/40 transition-all flex items-center gap-3 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-slate-50 p-1 border border-slate-100 flex items-center justify-center shrink-0 overflow-hidden">
+                    <img
+                      src={auth.logo_url}
+                      alt={lang === 'ar' ? auth.name_ar : auth.name_en}
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold text-slate-900 truncate">
+                      {lang === 'ar' ? auth.name_ar : auth.name_en}
+                    </div>
+                    <div className="text-[10px] text-slate-500 truncate mt-0.5">
+                      {lang === 'ar' ? auth.badge_ar : auth.badge_en}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* CLIENTS LOGO SHOWCASE GRID */}
+      {settings.show_clients_section !== false && (
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold text-[#E31E24] uppercase tracking-wider bg-red-50 px-3 py-1 rounded-md">
@@ -529,8 +590,10 @@ export default function Home() {
           ))}
         </div>
       </section>
+      )}
 
       {/* SOLID CALL TO ACTION BANNER */}
+      {settings.show_quote_section !== false && (
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#0F172A] rounded-3xl p-8 sm:p-14 text-white text-center sm:text-start flex flex-col lg:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden border border-slate-800 border-s-8 border-s-[#E31E24]">
           <div className="space-y-4 max-w-2xl relative z-10">
@@ -563,6 +626,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
     </div>
   );
