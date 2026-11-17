@@ -23,14 +23,17 @@ import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   BadgeCheck
 } from 'lucide-react';
 
 export default function About() {
   const { t, lang } = useLanguage();
-  const { settings, certificates = [], accreditationLogos = [] } = useData();
+  const { settings, certificates = [], accreditationLogos = [], openProfileModal } = useData();
   const [orgChartModalOpen, setOrgChartModalOpen] = useState(false);
   const [activeCertCategory, setActiveCertCategory] = useState('all');
+  const [showAllCerts, setShowAllCerts] = useState(false);
   const [selectedCertIndex, setSelectedCertIndex] = useState(null);
 
   const aboutImgSrc = (settings && settings.about_image_url && settings.about_image_url.trim() !== '') 
@@ -68,6 +71,10 @@ export default function About() {
   const filteredCertificates = activeCertCategory === 'all'
     ? (certificates || [])
     : (certificates || []).filter(c => c.category === activeCertCategory);
+
+  const displayedCertificates = (activeCertCategory === 'all' && !showAllCerts)
+    ? filteredCertificates.slice(0, 6)
+    : filteredCertificates;
 
   const getBadgeStyle = (color) => {
     switch (color) {
@@ -614,28 +621,28 @@ export default function About() {
 
           {/* Certificates Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCertificates.map((cert) => {
+            {displayedCertificates.map((cert) => {
               const originalIndex = (certificates || []).findIndex(c => c.id === cert.id);
               return (
                 <div
                   key={cert.id}
-                  className="bg-white rounded-2xl border-2 border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col group"
+                  className="bg-white rounded-2xl border-2 border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col group"
                 >
                   {/* Document Thumbnail Preview */}
                   <div
-                    className="relative h-60 bg-slate-50 overflow-hidden cursor-pointer flex items-center justify-center p-3 border-b border-slate-200/80"
+                    className="relative h-56 bg-slate-50 overflow-hidden cursor-pointer flex items-center justify-center p-3 border-b border-slate-200/80"
                     onClick={() => setSelectedCertIndex(originalIndex >= 0 ? originalIndex : 0)}
                   >
                     <img
                       src={cert.image_url}
                       alt={lang === 'ar' ? cert.title_ar : cert.title_en}
-                      className="max-h-full max-w-full object-contain rounded-lg shadow-sm transition-transform duration-300 group-hover:scale-105"
+                      className="max-h-full max-w-full object-contain rounded-lg shadow-2xs transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
 
                     {/* Badge on Top */}
                     <div className="absolute top-3 start-3">
-                      <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-1 rounded-md border shadow-sm ${getBadgeStyle(cert.badge_color)}`}>
+                      <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-1 rounded-md border shadow-xs ${getBadgeStyle(cert.badge_color)}`}>
                         <FileCheck2 className="w-3 h-3" />
                         <span>{lang === 'ar' ? cert.badge_ar : cert.badge_en}</span>
                       </span>
@@ -680,7 +687,7 @@ export default function About() {
                       <button
                         type="button"
                         onClick={() => setSelectedCertIndex(originalIndex >= 0 ? originalIndex : 0)}
-                        className="w-full py-2 bg-blue-50 hover:bg-[#2B3990] text-[#2B3990] hover:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                        className="w-full py-2 bg-blue-50 hover:bg-[#2B3990] text-[#2B3990] hover:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
                       >
                         <Maximize2 className="w-3.5 h-3.5" />
                         <span>{lang === 'ar' ? 'تكبير الوثيقة' : 'View Full'}</span>
@@ -702,41 +709,65 @@ export default function About() {
             })}
           </div>
 
-          {/* Accredited Authorities & Regulatory Bodies Showcase Ribbon */}
+          {/* Expand / Collapse Button if viewing 'all' and more than 6 certificates */}
+          {activeCertCategory === 'all' && filteredCertificates.length > 6 && (
+            <div className="flex justify-center pt-2">
+              <button
+                type="button"
+                onClick={() => setShowAllCerts(!showAllCerts)}
+                className="px-6 py-3 bg-white hover:bg-slate-50 text-[#2B3990] hover:text-[#E31E24] font-bold text-xs sm:text-sm rounded-2xl border-2 border-slate-200 hover:border-[#2B3990] shadow-xs hover:shadow-md transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+              >
+                {showAllCerts ? (
+                  <>
+                    <ChevronUp className="w-4 h-4" />
+                    <span>{lang === 'ar' ? 'عرض أقل' : 'Show Less'}</span>
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-4 h-4" />
+                    <span>
+                      {lang === 'ar'
+                        ? `استعراض باقي الشهادات والاعتمادات (+${filteredCertificates.length - 6})`
+                        : `View Remaining Certificates (+${filteredCertificates.length - 6})`}
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+          {/* Compact Accredited Authorities Ribbon (شريط أفقي مدمج وأنيق) */}
           {settings.show_accreditation_logos !== false && accreditationLogos && accreditationLogos.length > 0 && (
-            <div className="pt-6 border-t border-slate-200/80 space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div>
-                  <h3 className="font-extrabold text-base sm:text-lg text-slate-900 font-cairo">
-                    {lang === 'ar' ? 'الجهات والوزارات الحكومية المعتمدين لديها' : 'Accredited Authorities & Regulatory Bodies'}
-                  </h3>
-                  <p className="text-xs text-slate-500">
-                    {lang === 'ar' ? 'تأهيل وترخيص معتمد لدى أهم القطاعات والهيئات الرسمية في المملكة' : 'Officially certified and prequalified by key Saudi regulators & enterprises'}
-                  </p>
-                </div>
-                <span className="text-[11px] font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full shrink-0 self-start sm:self-auto">
-                  {accreditationLogos.filter(a => a.is_active !== false).length} {lang === 'ar' ? 'جهات وهيئات رسمية' : 'Accredited Bodies'}
+            <div className="pt-6 border-t border-slate-200/80 space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-700 font-cairo flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#E31E24]"></span>
+                  <span>{lang === 'ar' ? 'الجهات والوزارات الحكومية المعتمدين لديها:' : 'Accredited Regulatory Authorities:'}</span>
+                </span>
+                <span className="text-[11px] text-slate-400 font-medium">
+                  {accreditationLogos.filter(a => a.is_active !== false).length} {lang === 'ar' ? 'جهة وهيئة رسمية' : 'Accredited Bodies'}
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {/* Sleek Horizontal Scrolling Strip */}
+              <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
                 {accreditationLogos.filter(a => a.is_active !== false).map((auth) => (
                   <div
                     key={auth.id}
-                    className="p-3.5 bg-slate-50 hover:bg-white rounded-2xl border border-slate-200 hover:border-[#2B3990]/40 transition-all shadow-2xs hover:shadow-sm flex flex-col items-center text-center gap-2 group"
+                    className="flex items-center gap-2.5 px-3 py-2 bg-slate-50 hover:bg-white rounded-xl border border-slate-200 hover:border-blue-300 transition-all shrink-0 shadow-2xs group cursor-default"
                   >
-                    <div className="w-14 h-14 rounded-xl bg-white p-1.5 border border-slate-200/80 shadow-2xs flex items-center justify-center overflow-hidden">
+                    <div className="w-8 h-8 rounded-lg bg-white p-1 border border-slate-200/80 flex items-center justify-center shrink-0 overflow-hidden">
                       <img
                         src={auth.logo_url}
                         alt={lang === 'ar' ? auth.name_ar : auth.name_en}
-                        className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                        className="w-full h-full object-contain group-hover:scale-110 transition-transform"
                       />
                     </div>
-                    <div className="w-full">
-                      <div className="font-bold text-xs text-slate-900 truncate">
+                    <div>
+                      <div className="font-bold text-xs text-slate-800 whitespace-nowrap">
                         {lang === 'ar' ? auth.name_ar : auth.name_en}
                       </div>
-                      <div className="text-[10px] text-slate-500 truncate mt-0.5">
+                      <div className="text-[10px] text-slate-500 whitespace-nowrap font-medium">
                         {lang === 'ar' ? auth.badge_ar : auth.badge_en}
                       </div>
                     </div>
@@ -746,65 +777,36 @@ export default function About() {
             </div>
           )}
 
-          {/* Complete 43-Page Documents PDF Download Banner */}
-          {settings.show_profile_download_section !== false && (
-          <div className="bg-gradient-to-r from-[#1E286C] via-[#2B3990] to-[#1E286C] p-6 sm:p-8 rounded-3xl text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 border border-blue-400/30">
-            <div className="space-y-2 text-center md:text-start">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-white rounded-full text-xs font-bold border border-white/20">
-                <FileCheck2 className="w-4 h-4 text-emerald-400" />
-                <span>{lang === 'ar' ? 'ملف الوثائق الرسمي المعتمد (43 صفحة)' : 'Complete Official Documents Portfolio'}</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-black font-cairo">
-                {lang === 'ar' ? 'تحميل ملف وثائق الشركة الشامل (PDF)' : 'Download Full Company Document Portfolio (PDF)'}
-              </h3>
-              <p className="text-blue-100 text-xs sm:text-sm max-w-xl">
-                {lang === 'ar'
-                  ? 'يتضمن الملف الشامل كافة التراخيص الحكومية، الهوية القانونية، اعتمادات الأمن الصناعي والدفاع المدني، شهادات الآيزو، تأهيل أرامكو، والتأمينات الاجتماعية لتقديمها لجهات المناقصات والمشاريع.'
-                  : 'Includes all government licenses, legal identities, HCIS licenses, ISO certificates, Saudi Aramco vendor registration, and GOSI workforce docs for tenders and contracts.'}
-              </p>
-            </div>
-
-            <a
-              href="/documents/company_documents.pdf"
-              download="ملف_وثائق_شركة_تقنية_الأمان_الأولى.pdf"
-              className="px-6 py-3.5 bg-[#E31E24] hover:bg-[#C41419] text-white font-black text-xs sm:text-sm rounded-2xl shadow-xl hover:shadow-red-600/30 transition-all flex items-center gap-2 shrink-0 active:scale-95"
-            >
-              <Download className="w-4 h-4" />
-              <span>{lang === 'ar' ? 'تحميل ملف الوثائق (PDF - 9.6 MB)' : 'Download Documents (PDF - 9.6 MB)'}</span>
-            </a>
-          </div>
-          )}
-
         </div>
       </section>
       )}
 
-      {/* 7️⃣ SEVENTH SECTION: Company Profile Download CTA Banner */}
+      {/* 7️⃣ SEVENTH SECTION: Unified Company Documents & Profile Download Banner */}
       {settings.show_profile_download_section !== false && (
-      <div className="bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] p-8 sm:p-10 rounded-3xl text-white border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 p-6 sm:p-8 rounded-3xl text-white border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2 text-center md:text-start">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-950/80 text-red-400 border border-red-800/80 rounded-full text-xs font-bold">
             <FileText className="w-4 h-4" />
-            <span>{lang === 'ar' ? 'الملف التعريفي والوثائق الرسمية' : 'Company Profile & Official Portfolio'}</span>
+            <span>{lang === 'ar' ? 'الملفات الرسمية والوثائق المعتمدة (PDF)' : 'Official Certified Documents (PDF)'}</span>
           </div>
-          <h3 className="text-2xl sm:text-3xl font-extrabold font-cairo">
-            {lang === 'ar' ? 'تصفح البروفايل الرسمي وملف وثائق الشركة (PDF)' : 'Download Official Company Profile & Documents (PDF)'}
+          <h3 className="text-xl sm:text-2xl font-extrabold font-cairo">
+            {lang === 'ar' ? 'تحميل البروفايل التعريفي وكتيب وثائق الشركة' : 'Download Company Profile & Complete Document Portfolio'}
           </h3>
-          <p className="text-slate-400 text-xs sm:text-sm max-w-xl">
+          <p className="text-slate-400 text-xs sm:text-sm max-w-xl leading-relaxed">
             {lang === 'ar' 
-              ? 'يتضمن البروفايل جميع التفاصيل الفنية الهندسية، قائمة المشاريع المنفذة، اعتمادات الدفاع المدني، ونطاق الخدمات المتاحة.'
-              : 'Explore our complete portfolio, Civil Defense certifications, engineering capabilites, and project showcases.'}
+              ? 'حمّل مباشرة البروفايل الفني والهندسي أو ملف وثائق الشركة الشامل (43 صفحة) المتضمن كافة التراخيص الحكومية، واعتمادات أرامكو والأمن الصناعي لتقديمها في المناقصات والمشاريع.'
+              : 'Download our comprehensive company profile or full 43-page official documents portfolio including HCIS, Civil Defense, and Aramco vendor certifications.'}
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
+        <div className="flex flex-wrap items-center justify-center md:justify-end gap-3 shrink-0">
           <a
             href="/documents/company_documents.pdf"
             download="ملف_وثائق_شركة_تقنية_الأمان_الأولى.pdf"
-            className="px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl shadow-lg transition-all flex items-center gap-2 text-xs sm:text-sm active:scale-95"
+            className="px-5 py-3.5 bg-gradient-to-r from-[#1E286C] to-[#2B3990] hover:from-[#2B3990] hover:to-[#1E286C] text-white font-bold text-xs rounded-2xl shadow-lg border border-blue-400/40 transition-all flex items-center gap-2 active:scale-95"
           >
-            <Download className="w-4 h-4" />
-            <span>{lang === 'ar' ? 'ملف الوثائق (43 صفحة)' : 'Document Portfolio (43 Pages)'}</span>
+            <Download className="w-4 h-4 text-emerald-400" />
+            <span>{lang === 'ar' ? 'ملف الوثائق (43 صفحة - PDF)' : 'Document Portfolio (43 Pages)'}</span>
           </a>
 
           {settings.company_profile_url ? (
@@ -812,15 +814,20 @@ export default function About() {
               href={settings.company_profile_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3.5 bg-[#E31E24] hover:bg-[#C41419] text-white font-extrabold rounded-2xl shadow-lg hover:shadow-red-600/30 transition-all flex items-center gap-2 text-xs sm:text-sm active:scale-95"
+              className="px-5 py-3.5 bg-[#E31E24] hover:bg-[#C41419] text-white font-bold text-xs rounded-2xl shadow-lg hover:shadow-red-600/30 transition-all flex items-center gap-2 active:scale-95"
             >
               <Download className="w-4 h-4" />
               <span>{lang === 'ar' ? 'البروفايل التعريفي (PDF)' : 'Profile Deck (PDF)'}</span>
             </a>
           ) : (
-            <div className="px-6 py-3 bg-slate-800 text-slate-400 font-bold text-xs rounded-xl border border-slate-700 shrink-0">
-              {lang === 'ar' ? 'يمكنك رفع البروفايل من لوحة التحكم' : 'Upload Profile in Admin Panel'}
-            </div>
+            <button
+              type="button"
+              onClick={openProfileModal}
+              className="px-5 py-3.5 bg-[#E31E24] hover:bg-[#C41419] text-white font-bold text-xs rounded-2xl shadow-lg hover:shadow-red-600/30 transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>{lang === 'ar' ? 'البروفايل التعريفي (PDF)' : 'Profile Deck (PDF)'}</span>
+            </button>
           )}
         </div>
       </div>
